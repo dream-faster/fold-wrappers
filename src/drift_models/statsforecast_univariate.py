@@ -1,6 +1,7 @@
+from typing import Any
+
 import numpy as np
 from drift.models.base import Model, ModelType
-from typing import Any
 
 
 class UnivariateStatsForecastModel(Model):
