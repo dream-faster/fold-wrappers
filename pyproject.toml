@@ -19,6 +19,7 @@ classifiers = [
 ]
 dependencies = [
   "numpy",
+  "drift",
 ]
 description = "Model wrappers for drift."
 dynamic = ["version"]
@@ -42,14 +43,15 @@ quality = [
   "flake8~=4.0.1",
   "isort~=5.10.1",
   "pre-commit~=2.20.0",
-
 ]
 tests = [
   "pytest~=7.1.2",
+  "drift",
 ]
 
 [tool.hatch.envs.quality]
 dependencies = [
+  "drift",
   "drift-models[quality]"
 ]
 detached = true
