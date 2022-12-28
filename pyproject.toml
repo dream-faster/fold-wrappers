@@ -19,7 +19,7 @@ classifiers = [
 ]
 dependencies = [
   "numpy",
-  "https://github.com/dream-faster/drift/archive/main.zip",
+  "drift @ https://github.com/dream-faster/drift/archive/main.zip",
 ]
 description = "Model wrappers for drift."
 dynamic = ["version"]
@@ -46,6 +46,7 @@ quality = [
 ]
 tests = [
   "pytest~=7.1.2",
+  "drift @ https://github.com/dream-faster/drift/archive/main.zip",
 ]
 
 [tool.hatch.envs.quality]
