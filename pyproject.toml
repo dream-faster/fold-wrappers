@@ -50,8 +50,7 @@ tests = [
 
 [tool.hatch.envs.quality]
 dependencies = [
-  "drift",
-  "drift-models[quality]"
+  "drift-models[quality]",
 ]
 detached = true
 
