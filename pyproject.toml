@@ -49,6 +49,7 @@ tests = [
   "drift @ https://github.com/dream-faster/drift/archive/main.zip",
 ]
 
+
 [tool.hatch.envs.quality]
 dependencies = [
   "drift-models[quality]",
@@ -88,3 +89,6 @@ exclude = [
   "/.gitignore",
   "/tests",
 ]
+
+[tool.hatch.metadata]
+allow-direct-references = true
