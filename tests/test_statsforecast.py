@@ -10,7 +10,7 @@ from tests.utils import generate_sine_wave_data
 def test_statsforecast_univariate_model() -> None:
 
     X = generate_sine_wave_data()
-    y = X.shift(1)
+    y = X
 
     splitter = ExpandingWindowSplitter(start=0, end=len(y), window_size=400, step=400)
     model = UnivariateStatsForecastModel(Theta())
