@@ -15,7 +15,7 @@ class UnivariateStatsForecast(Model):
     def fit(
         self, X: pd.DataFrame, y: pd.Series, sample_weights: Optional[pd.Series] = None
     ) -> None:
-        self.model.fit(y=X.values)
+        self.model.fit(y=X.squeeze().values)
 
     # TODO: figure out whether we'll want to support in-sample predictions, and whether the Model
     # should be responsible for handling that or the "loop".
