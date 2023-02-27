@@ -6,6 +6,10 @@ from drift.models.base import Model
 
 class UnivariateStatsForecast(Model):
 
+    properties = Model.Properties(
+        requires_past_X=True, model_type=Model.Properties.ModelType.regressor
+    )
+
     name = "UnivariateStatsForecast"
 
     def __init__(self, model: Any) -> None:
