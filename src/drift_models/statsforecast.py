@@ -7,10 +7,12 @@ from drift.models.base import Model
 class UnivariateStatsForecast(Model):
 
     properties = Model.Properties(
-        requires_past_X=True, model_type=Model.Properties.ModelType.regressor
+        requires_continuous_updates=True,
+        model_type=Model.Properties.ModelType.regressor,
     )
 
     name = "UnivariateStatsForecast"
+    fitted = False
 
     def __init__(self, model: Any) -> None:
         self.model = model
@@ -19,7 +21,14 @@ class UnivariateStatsForecast(Model):
     def fit(
         self, X: pd.DataFrame, y: pd.Series, sample_weights: Optional[pd.Series] = None
     ) -> None:
-        self.model.fit(y=X.squeeze().values)
+        if self.fitted:
+            if hasattr(self.model, "update"):
+                self.model.update(y=y.values)
+            else:
+                self.model.fit(y=y.values)
+        else:
+            self.model.fit(y=y.values)
+            self.fitted = True
 
     # TODO: figure out whether we'll want to support in-sample predictions, and whether the Model
     # should be responsible for handling that or the "loop".
