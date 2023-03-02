@@ -1,4 +1,4 @@
-from .statsforecast_univariate import UnivariateStatsForecast
+from .statsforecast import UnivariateStatsForecast
 
 """`drift-models `: Models for drift"""
 
