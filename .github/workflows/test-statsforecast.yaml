@@ -20,6 +20,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install ".[tests]"
-          pip install statsforecast
+          pip install "statsforecast>=1.5"
       - name: run-tests
         run: pytest tests/test_statsforecast.py -s --durations 0
