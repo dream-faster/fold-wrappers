@@ -48,6 +48,12 @@ tests = [
   "pytest~=7.1.2",
   "drift @ https://github.com/dream-faster/drift/archive/main.zip",
 ]
+docs = [
+  "mkdocs-material",
+  "mkdocstrings-python",
+  "mkdocs-include-markdown-plugin",
+  "mkdocs-autorefs"
+]
 
 
 [tool.hatch.envs.quality]
