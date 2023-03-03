@@ -1,0 +1,29 @@
+site_name: Drift
+repo_url: https://github.com/dream-faster/drift
+repo_name: GitHub
+site_author: Dream Faster
+copyright: Dream Faster 2023
+theme:
+  name: material
+
+nav:
+    - 'index.md'
+    - 'continuous-validation.md'
+    - 'design.md'
+    - 'reference.md'
+
+plugins:
+  - search
+  - include-markdown
+  - autorefs
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            show_source: false
+            separate_signature: true
+            show_submodules: true
+            show_signature_annotations: true
+          import:
+          - https://docs.python-requests.org/en/master/objects.inv
