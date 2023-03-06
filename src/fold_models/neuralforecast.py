@@ -52,8 +52,11 @@ class WrapNeuralForecast(Model):
     def fit(
         self, X: pd.DataFrame, y: pd.Series, sample_weights: Optional[pd.Series] = None
     ) -> None:
+        y = y.copy()
+        y.index = range(0, len(y))
         data = pd.DataFrame(
-            {"ds": X.index, "y": y, "unique_id": 1.0}, index=range(0, len(y))
+            {"ds": X.index, "y": y, "unique_id": 1.0},
+            index=range(0, len(y)),
         )
         self.nf.fit(data)
 
