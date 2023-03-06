@@ -1,9 +1,9 @@
-from drift.loop import backtest, train
-from drift.splitters import ExpandingWindowSplitter
-from drift.utils.tests import generate_zeros_and_ones_skewed
+from fold.loop import backtest, train
+from fold.splitters import ExpandingWindowSplitter
+from fold.utils.tests import generate_zeros_and_ones_skewed
 from statsforecast.models import Naive
 
-from drift_models.statsforecast import UnivariateStatsForecast
+from fold_models.statsforecast import UnivariateStatsForecast
 
 
 def test_statsforecast_univariate_model() -> None:

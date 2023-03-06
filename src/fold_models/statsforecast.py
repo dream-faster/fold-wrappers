@@ -1,7 +1,7 @@
 from typing import Any, Optional
 
 import pandas as pd
-from drift.models.base import Model
+from fold.models.base import Model
 
 
 class UnivariateStatsForecast(Model):
