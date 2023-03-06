@@ -62,5 +62,7 @@ class WrapNeuralForecast(Model):
 
     def predict(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
         return pd.Series(
-            self.nf.predict(), index=X.index, name=f"predictions_{self.name}"
+            [self.nf.predict().iloc[0].iloc[1]],
+            index=X.index,
+            name=f"predictions_{self.name}",
         )
