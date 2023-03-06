@@ -26,7 +26,6 @@ dependencies = [
   "fold @ https://github.com/dream-faster/fold/archive/main.zip",
 ]
 description = "Model wrappers for fold."
-dynamic = ["version"]
 keywords = []
 license = { file="LICENSE" }
 readme = "README.md"
@@ -36,9 +35,6 @@ requires-python = ">=3.7"
 Documentation = "https://dream-faster.github.io/fold-models"
 Issues = "https://github.com/dream-faster/fold-models/issues"
 Source = "https://github.com/dream-faster/fold-models"
-
-[tool.hatch.version]
-path = "src/fold_models/__init__.py"
 
 [project.optional-dependencies]
 quality = [
