@@ -10,7 +10,6 @@ class UnivariateStatsForecast(Model):
         model_type=Model.Properties.ModelType.regressor,
     )
 
-    name = "UnivariateStatsForecast"
     fitted = False
 
     def __init__(self, model: Any) -> None:

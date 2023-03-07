@@ -6,7 +6,7 @@ from statsforecast.models import Naive
 from fold_models.statsforecast import UnivariateStatsForecast
 
 
-def test_statsforecast_univariate_model() -> None:
+def test_statsforecast_univariate() -> None:
     X = generate_zeros_and_ones_skewed(70, weights=[0.5, 0.5])
     y = X.shift(-1).squeeze()
 
