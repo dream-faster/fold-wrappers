@@ -5,7 +5,6 @@ from fold.models.base import Model
 
 
 class UnivariateStatsForecast(Model):
-
     properties = Model.Properties(
         requires_continuous_updates=True,
         model_type=Model.Properties.ModelType.regressor,
