@@ -1,4 +1,3 @@
-from copy import copy
 from typing import Any, Optional, Union
 
 import pandas as pd
@@ -40,16 +39,13 @@ class WrapNeuralProphet(Model):
         )
 
     def __deepcopy__(self, memo):
-        model = copy(self.model)
-        setattr(model, "trainer", None)
         from io import BytesIO
 
-        from torch import load, save
+        from neuralprophet.utils import load, save
 
         buff = BytesIO()
 
-        save(model, buff)
+        save(self.model, buff)
         buff.seek(0)
         model = load(buff)
-        model.restore_trainer()
         return NeuralProphetWrapper(model)
