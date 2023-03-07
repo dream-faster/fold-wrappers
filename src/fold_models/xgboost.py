@@ -60,5 +60,4 @@ class WrapXGB(Model):
     def predict(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
         return pd.Series(self.model.predict(X), index=X.index)
 
-    def predict_in_sample(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
-        return pd.Series(self.model.predict(X), index=X.index)
+    predict_in_sample = predict

@@ -1,3 +1,4 @@
+from .neuralprophet import WrapNeuralProphet
 from .sktime import WrapSktime
 from .statsforecast import WrapStatsForecast
 from .statsmodels import WrapStatsModels
