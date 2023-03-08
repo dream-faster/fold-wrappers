@@ -12,11 +12,11 @@ def test_neuralforecast_univariate() -> None:
     X = generate_all_zeros(1000)
     y = X.squeeze()
 
-    step = 400
+    step = 10
     splitter = ExpandingWindowSplitter(train_window_size=400, step=step)
 
     transformations = UnivariateNeuralForecast(
-        NBEATS(input_size=step, h=2, max_epochs=50)
+        NBEATS(input_size=100, h=step, max_epochs=50)
     )
     transformations_over_time = train(transformations, X, y, splitter)
     _, pred = backtest(transformations_over_time, X, y, splitter)

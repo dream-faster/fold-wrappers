@@ -52,17 +52,35 @@ class WrapNeuralForecast(Model):
     def fit(
         self, X: pd.DataFrame, y: pd.Series, sample_weights: Optional[pd.Series] = None
     ) -> None:
-        y = y.copy()
-        y.index = range(0, len(y))
         data = pd.DataFrame(
-            {"ds": X.index, "y": y, "unique_id": 1.0},
+            {"ds": X.index, "y": y.values, "unique_id": 1.0},
             index=range(0, len(y)),
         )
         self.nf.fit(data)
 
-    def predict(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
-        return pd.Series(
-            [self.nf.predict().iloc[0].iloc[1]],
-            index=X.index,
-            name=f"predictions_{self.name}",
+    def update(
+        self,
+        X: pd.DataFrame,
+        y: Optional[pd.Series],
+        sample_weights: Optional[pd.Series] = None,
+    ) -> None:
+        for model in self.nf.models:
+            model.max_steps = 10
+        data = pd.DataFrame(
+            {"ds": X.index, "y": y.values, "unique_id": 1.0},
+            index=range(0, len(y)),
         )
+        self.nf.fit(data)
+
+    def predict(
+        self, X: pd.DataFrame, in_sample: bool
+    ) -> Union[pd.Series, pd.DataFrame]:
+        predicted = self.nf.predict()
+
+        if len(predicted) != len(X):
+            raise ValueError("Step size and forecasting horizon must be equal.")
+        else:
+            return pd.Series(self.nf.predict(), index=X.index)
+
+    def predict_in_sample(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
+        return X
