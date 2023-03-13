@@ -1,43 +1,81 @@
-from typing import Any, Optional
+from __future__ import annotations
+
+from typing import Any, Optional, Type, Union
 
 import pandas as pd
 from fold.models.base import Model
 
 
-class UnivariateStatsForecast(Model):
+class WrapStatsForecast(Model):
     properties = Model.Properties(
-        requires_continuous_updates=True,
         model_type=Model.Properties.ModelType.regressor,
     )
 
-    fitted = False
+    def __init__(
+        self,
+        model_class: Type,
+        init_args: dict,
+        use_exogenous: bool,
+        online_mode: bool = False,
+        instance: Optional[Any] = None,
+    ) -> None:
+        self.model = model_class(**init_args) if instance is None else instance
+        self.model_class = model_class
+        self.init_args = init_args
+        self.use_exogenous = use_exogenous
+        self.properties.mode = (
+            Model.Properties.Mode.online
+            if online_mode
+            else Model.Properties.Mode.minibatch
+        )
+        self.name = f"WrapStatsForecast-{self.model.__class__.__name__}"
 
-    def __init__(self, model: Any) -> None:
-        self.model = model
-        self.name = "UnivariateStatsForecast-{model.alias}"
+    @classmethod
+    def from_model(
+        cls,
+        model,
+        use_exogenous: bool,
+        online_mode: bool = False,
+    ) -> WrapStatsForecast:
+        return cls(
+            model_class=None,
+            init_args=None,
+            use_exogenous=use_exogenous,
+            instance=model,
+            online_mode=online_mode,
+        )
 
     def fit(
         self, X: pd.DataFrame, y: pd.Series, sample_weights: Optional[pd.Series] = None
     ) -> None:
-        if self.fitted:
-            if hasattr(self.model, "update"):
-                self.model.update(y=y.values)
-            else:
-                self.model.fit(y=y.values)
+        if self.use_exogenous:
+            self.model.fit(y=y.values, X=X.values)
         else:
             self.model.fit(y=y.values)
-            self.fitted = True
 
-    # TODO: figure out whether we'll want to support in-sample predictions, and whether the Model
-    # should be responsible for handling that or the "loop".
-    # def predict_in_sample(self, X: np.ndarray) -> np.ndarray:
-    #     pred_dict = self.model.predict_in_sample()
-    #     if "fitted" in pred_dict:
-    #         return pred_dict["fitted"]
-    #     elif "mean" in pred_dict:
-    #         return pred_dict["mean"]
-    #     else:
-    #         raise ValueError("Unknown prediction dictionary structure")
+    def update(
+        self, X: pd.DataFrame, y: pd.Series, sample_weights: Optional[pd.Series] = None
+    ) -> None:
+        if not hasattr(self.model, "forward"):
+            return
+        if self.use_exogenous:
+            self.model.forward(y=y.values, h=len(X), X=X.values)
+        else:
+            self.model.forward(y=y.values, h=len(X))
 
-    def predict(self, X: pd.DataFrame) -> pd.DataFrame:
-        return pd.Series(self.model.predict(h=len(X))["mean"], index=X.index)
+    def predict(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
+        if self.use_exogenous:
+            return pd.Series(
+                self.model.predict(h=len(X), X=X.values)["mean"], index=X.index
+            )
+        else:
+            return pd.Series(self.model.predict(h=len(X))["mean"], index=X.index)
+
+    def predict_in_sample(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
+        pred_dict = self.model.predict_in_sample()
+        if "fitted" in pred_dict:
+            return pd.Series(pred_dict["fitted"], index=X.index)
+        elif "mean" in pred_dict:
+            return pd.Series(pred_dict["mean"], index=X.index)
+        else:
+            raise ValueError("Unknown prediction dictionary structure")

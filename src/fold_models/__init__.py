@@ -1,2 +1,2 @@
-from .statsforecast import UnivariateStatsForecast
-from .xgboost import XGB
+from .statsforecast import WrapStatsForecast
+from .xgboost import WrapXGB
