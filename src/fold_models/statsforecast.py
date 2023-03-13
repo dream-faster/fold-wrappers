@@ -16,14 +16,18 @@ class WrapStatsForecast(Model):
         model_class: Type,
         init_args: dict,
         use_exogenous: bool,
-        update_continuously: bool = False,
+        online_mode: bool = False,
         instance: Optional[Any] = None,
     ) -> None:
         self.model = model_class(**init_args) if instance is None else instance
         self.model_class = model_class
         self.init_args = init_args
         self.use_exogenous = use_exogenous
-        self.properties.requires_continuous_updates = update_continuously
+        self.properties.mode = (
+            Model.Properties.Mode.online
+            if online_mode
+            else Model.Properties.Mode.minibatch
+        )
         self.name = f"WrapStatsForecast-{self.model.__class__.__name__}"
 
     @classmethod
@@ -31,9 +35,15 @@ class WrapStatsForecast(Model):
         cls,
         model,
         use_exogenous: bool,
-        update_continuously: bool = False,
+        online_mode: bool = False,
     ) -> WrapStatsForecast:
-        return cls(model_class=None, init_args=None, use_exogenous=use_exogenous, instance=model, update_continuously=update_continuously)  # type: ignore
+        return cls(
+            model_class=None,
+            init_args=None,
+            use_exogenous=use_exogenous,
+            instance=model,
+            online_mode=online_mode,
+        )
 
     def fit(
         self, X: pd.DataFrame, y: pd.Series, sample_weights: Optional[pd.Series] = None
