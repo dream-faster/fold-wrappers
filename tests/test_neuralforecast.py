@@ -1,23 +1,22 @@
+import numpy as np
 from fold.loop import backtest, train
 from fold.splitters import ExpandingWindowSplitter
-from fold.transformations.columns import OnlyPredictions
-from fold.utils.tests import generate_all_zeros
+from fold.utils.tests import generate_monotonous_data
 from neuralforecast.models import NBEATS
 
-from fold_models.neuralforecast import UnivariateNeuralForecast
+from fold_models.neuralforecast import WrapNeuralForecast
 
 
 def test_neuralforecast_univariate() -> None:
+    X, y = generate_monotonous_data()
 
-    X = generate_all_zeros(1000)
-    y = X.squeeze()
+    step = 100
+    input_size = 100
+    splitter = ExpandingWindowSplitter(initial_train_window=400, step=step)
 
-    step = 10
-    splitter = ExpandingWindowSplitter(train_window_size=400, step=step)
-
-    transformations = UnivariateNeuralForecast(
-        NBEATS(input_size=100, h=step, max_epochs=50)
+    transformations = WrapNeuralForecast.from_model(
+        NBEATS(input_size=input_size, h=step, max_epochs=50),
     )
     transformations_over_time = train(transformations, X, y, splitter)
     _, pred = backtest(transformations_over_time, X, y, splitter)
-    assert (pred.squeeze() == y[pred.index]).all()
+    assert np.isclose(y.squeeze()[pred.index], pred.squeeze().values, atol=0.1).all()
