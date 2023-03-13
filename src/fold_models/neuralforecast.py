@@ -65,9 +65,13 @@ class WrapNeuralForecast(Model):
         predicted = self.nf.predict()
 
         if len(predicted) != len(X):
-            raise ValueError("Step size and forecasting horizon must be equal.")
+            raise ValueError(
+                "Step size (of the Splitter) and `h` (forecasting horizon) must be equal."
+            )
         else:
-            return pd.Series(predicted, index=X.index)
+            return pd.Series(
+                predicted[self.model.__class__.__name__].values, index=X.index
+            )
 
     def predict_in_sample(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
         data = pd.DataFrame(
@@ -81,8 +85,7 @@ class WrapNeuralForecast(Model):
         )[self.model.__class__.__name__]
         # NeuralForecast will not return in sample predictions for `input_size`, so let's pad that with NaNs
         padding_size = len(X) - len(predictions)
-        predictions = pd.concat(
-            [pd.Series(np.full(padding_size, np.nan)), predictions], axis="index"
+        return pd.Series(
+            np.hstack([np.full(padding_size, np.nan), predictions.values]),
+            index=X.index,
         )
-        predictions.index = X.index
-        return predictions

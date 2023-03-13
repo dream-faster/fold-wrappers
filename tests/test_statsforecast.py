@@ -20,7 +20,7 @@ def test_statsforecast_univariate_naive() -> None:
     transformations_over_time = train(transformations, X, y, splitter)
     pred = backtest(transformations_over_time, X, y, splitter)
     assert np.isclose(
-        y.squeeze().shift(1)[pred.index][:-1], pred.squeeze().values[:-1], atol=0.01
+        y.squeeze().shift(1)[pred.index][:-1], pred.squeeze()[:-1], atol=0.01
     ).all()
 
 
