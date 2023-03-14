@@ -67,13 +67,14 @@ class WrapStatsModels(Model):
     def update(
         self, X: pd.DataFrame, y: pd.Series, sample_weights: Optional[pd.Series] = None
     ) -> None:
-        if not hasattr(self.model, "forward"):
+        if not hasattr(self.res, "append"):
             return
 
         if self.use_exogenous:
-            self.model.forward(y=y.values, h=len(X), exog=X.values)
+            self.res.append(endog=y, exog=X, refit=True)
+            # self.res.update(y=y.values, h=len(X), exog=X.values)
         else:
-            self.model.forward(y=y.values, h=len(X))
+            self.res.append(endog=y, refit=True)
 
     def predict(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
         if self.use_exogenous:
