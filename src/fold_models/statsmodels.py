@@ -71,14 +71,14 @@ class WrapStatsModels(Model):
             return
 
         if self.use_exogenous:
-            self.model.forward(y=y.values, h=len(X), X=X.values)
+            self.model.forward(y=y.values, h=len(X), exog=X.values)
         else:
             self.model.forward(y=y.values, h=len(X))
 
     def predict(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
         if self.use_exogenous:
             return pd.Series(
-                self.res.predict(start=X.index[0], end=X.index[-1], X=X)
+                self.res.predict(start=X.index[0], end=X.index[-1], exog=X)
             )
         else:
             return pd.Series(self.res.predict(start=X.index[0], end=X.index[-1]))
