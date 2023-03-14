@@ -1,4 +1,4 @@
-from fold.splitters import ExpandingWindowSplitter, Splitter
+from fold.splitters import ExpandingWindowSplitter
 from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 from utils import run_pipeline_and_check_if_results_are_close

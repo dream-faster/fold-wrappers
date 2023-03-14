@@ -1,6 +1,6 @@
 import numpy as np
 from fold.loop import backtest, train
-from fold.splitters import ExpandingWindowSplitter, Splitter
+from fold.splitters import ExpandingWindowSplitter
 from fold.utils.tests import generate_monotonous_data
 from statsforecast.models import ARIMA, MSTL, AutoARIMA, Naive
 from utils import run_pipeline_and_check_if_results_are_close

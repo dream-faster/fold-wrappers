@@ -1,6 +1,6 @@
 import numpy as np
 from fold.loop import backtest, train
-from fold.splitters import ExpandingWindowSplitter, Splitter
+from fold.splitters import Splitter
 from fold.utils.tests import generate_monotonous_data
 
 
