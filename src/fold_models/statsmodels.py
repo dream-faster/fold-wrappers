@@ -72,7 +72,6 @@ class WrapStatsModels(Model):
 
         if self.use_exogenous:
             self.res.append(endog=y, exog=X, refit=True)
-            # self.res.update(y=y.values, h=len(X), exog=X.values)
         else:
             self.res.append(endog=y, refit=True)
 
