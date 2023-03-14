@@ -49,15 +49,19 @@ class WrapStatsModels(Model):
     def fit(
         self, X: pd.DataFrame, y: pd.Series, sample_weights: Optional[pd.Series] = None
     ) -> None:
-        self.model = (
-            self.model_class(y, X, **self.init_args)
-            if self.instance is None
-            else self.instance
-        )
-
         if self.use_exogenous:
+            self.model = (
+                self.model_class(y, X, **self.init_args)
+                if self.instance is None
+                else self.instance
+            )
             self.res = self.model.fit()
         else:
+            self.model = (
+                self.model_class(y, **self.init_args)
+                if self.instance is None
+                else self.instance
+            )
             self.res = self.model.fit()
 
     def update(
@@ -73,15 +77,11 @@ class WrapStatsModels(Model):
 
     def predict(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
         if self.use_exogenous:
-            return pd.Series(self.res.predict(X=X.values)["mean"], index=X.index)
+            return pd.Series(
+                self.res.predict(start=X.index[0], end=X.index[-1], X=X.values)
+            )
         else:
-            return pd.Series(self.res.predict()["mean"])
+            return pd.Series(self.res.predict(start=X.index[0], end=X.index[-1]))
 
     def predict_in_sample(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
-        pred_dict = self.res.predict(X)
-        if "fitted" in pred_dict:
-            return pd.Series(pred_dict["fitted"], index=X.index)
-        elif "mean" in pred_dict:
-            return pd.Series(pred_dict["mean"], index=X.index)
-        else:
-            raise ValueError("Unknown prediction dictionary structure")
+        return self.res.predict(start=X.index[0], end=X.index[-1])
