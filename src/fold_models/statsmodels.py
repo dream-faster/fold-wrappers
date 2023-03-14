@@ -54,12 +54,11 @@ class WrapStatsModels(Model):
             if self.instance is None
             else self.instance
         )
-        self.model.fit()
 
         if self.use_exogenous:
-            self.model.fit()
+            self.res = self.model.fit()
         else:
-            self.model.fit()
+            self.res = self.model.fit()
 
     def update(
         self, X: pd.DataFrame, y: pd.Series, sample_weights: Optional[pd.Series] = None
@@ -74,14 +73,12 @@ class WrapStatsModels(Model):
 
     def predict(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
         if self.use_exogenous:
-            return pd.Series(
-                self.model.predict(h=len(X), X=X.values)["mean"], index=X.index
-            )
+            return pd.Series(self.res.predict(X=X.values)["mean"], index=X.index)
         else:
-            return pd.Series(self.model.predict(h=len(X))["mean"], index=X.index)
+            return pd.Series(self.res.predict()["mean"])
 
     def predict_in_sample(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
-        pred_dict = self.model.predict_in_sample()
+        pred_dict = self.res.predict(X)
         if "fitted" in pred_dict:
             return pd.Series(pred_dict["fitted"], index=X.index)
         elif "mean" in pred_dict:

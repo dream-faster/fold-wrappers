@@ -35,7 +35,7 @@ def run_pipeline_and_check_if_results_are_close(model, splitter: Splitter):
 #     )
 
 
-def test_statsforecast_univariate_arima() -> None:
+def test_statsmodels_univariate_arima() -> None:
     run_pipeline_and_check_if_results_are_close(
         model=WrapStatsModels(
             model_class=ARIMA, init_args={"order": (1, 0, 0)}, use_exogenous=False
