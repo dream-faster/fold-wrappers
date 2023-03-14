@@ -14,11 +14,12 @@ class WrapStatsForecast(Model):
     def __init__(
         self,
         model_class: Type,
-        init_args: dict,
+        init_args: Optional[dict],
         use_exogenous: bool,
         online_mode: bool = False,
         instance: Optional[Any] = None,
     ) -> None:
+        init_args = {} if init_args is None else init_args
         self.model = model_class(**init_args) if instance is None else instance
         self.model_class = model_class
         self.init_args = init_args
