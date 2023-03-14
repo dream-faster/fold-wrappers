@@ -53,6 +53,9 @@ docs = [
   "mkdocs-include-markdown-plugin",
   "mkdocs-autorefs"
 ]
+sktime = [
+  "sktime>=0.16.0"
+]
 
 
 [tool.hatch.envs.quality]
