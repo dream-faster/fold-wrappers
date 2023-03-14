@@ -19,7 +19,6 @@ class WrapStatsModels(Model):
         online_mode: bool = False,
         instance: Optional[Any] = None,
     ) -> None:
-        # self.model = model_class(**init_args) if instance is None else instance
         self.model_class = model_class
         self.init_args = init_args
         self.use_exogenous = use_exogenous
