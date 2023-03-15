@@ -30,7 +30,7 @@ class WrapSktime(Model):
             if online_mode
             else Model.Properties.Mode.minibatch
         )
-        self.name = f"WrapSktime-{self.model.__class__.__name__}"
+        self.name = f"WrapStatsForecast-{self.model.__class__.__name__}"
 
     @classmethod
     def from_model(
@@ -68,13 +68,8 @@ class WrapSktime(Model):
     def predict(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
         fh = ForecastingHorizon(X.index, is_relative=False)
         if self.use_exogenous:
-            return pd.Series(self.model.predict(fh, X=X), index=X.index)
+            return self.model.predict(fh, X=X)
         else:
-            return pd.Series(self.model.predict(fh), index=X.index)
+            return self.model.predict(fh)
 
-    def predict_in_sample(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
-        fh = ForecastingHorizon(X.index, is_relative=False)
-
-        pred_dict = self.model.predict(fh)
-
-        return pred_dict
+    predict_in_sample = predict
