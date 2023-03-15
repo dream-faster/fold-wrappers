@@ -53,8 +53,14 @@ docs = [
   "mkdocs-include-markdown-plugin",
   "mkdocs-autorefs"
 ]
+statsforecast = [
+  "statsforecast>=1.5"
+]
 statsmodels = [
   "statsmodels>=0.12.0"
+]
+xgboost = [
+  "xgboost"
 ]
 
 
