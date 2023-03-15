@@ -19,3 +19,15 @@ def test_sktime_multivariate_naiveforecaster() -> None:
         model=WrapSktime(model_class=NaiveForecaster, init_args={}, use_exogenous=True),
         splitter=ExpandingWindowSplitter(initial_train_window=50, step=1),
     )
+
+
+def test_sktime_univariate_naiveforecaster_online() -> None:
+    run_pipeline_and_check_if_results_are_close(
+        model=WrapSktime(
+            model_class=NaiveForecaster,
+            init_args={},
+            use_exogenous=False,
+            online_mode=True,
+        ),
+        splitter=ExpandingWindowSplitter(initial_train_window=50, step=10),
+    )

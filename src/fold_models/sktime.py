@@ -61,9 +61,9 @@ class WrapSktime(Model):
         if not hasattr(self.model, "update"):
             return
         if self.use_exogenous:
-            self.model.update(y=y, X=X, update_params=True)
+            self.model = self.model.update(y=y, X=X, update_params=True)
         else:
-            self.model.update(y=y, update_params=True)
+            self.model = self.model.update(y=y, update_params=True)
 
     def predict(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
         fh = ForecastingHorizon(X.index, is_relative=False)
