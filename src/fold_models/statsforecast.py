@@ -38,8 +38,8 @@ class WrapStatsForecast(Model):
         online_mode: bool = False,
     ) -> WrapStatsForecast:
         return cls(
-            model_class=None,
-            init_args=None,
+            model_class=model.__class__,
+            init_args={},
             use_exogenous=use_exogenous,
             instance=model,
             online_mode=online_mode,
