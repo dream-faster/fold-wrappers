@@ -54,7 +54,8 @@ docs = [
   "mkdocs-autorefs"
 ]
 sktime = [
-  "sktime>=0.16.0"
+  "sktime>=0.16.0",
+  "pmdarima>=2.0.0"
 ]
 
 
