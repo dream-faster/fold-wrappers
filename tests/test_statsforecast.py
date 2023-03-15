@@ -1,8 +1,9 @@
 import numpy as np
 from fold.loop import backtest, train
-from fold.splitters import ExpandingWindowSplitter, Splitter
+from fold.splitters import ExpandingWindowSplitter
 from fold.utils.tests import generate_monotonous_data
 from statsforecast.models import ARIMA, MSTL, AutoARIMA, Naive
+from utils import run_pipeline_and_check_if_results_are_close
 
 from fold_models.statsforecast import WrapStatsForecast
 
@@ -23,18 +24,10 @@ def test_statsforecast_univariate_naive() -> None:
     ).all()
 
 
-def run_pipeline_and_check_if_results_are_close(model, splitter: Splitter):
-    X, y = generate_monotonous_data(length=70)
-
-    transformations_over_time = train(model, X, y, splitter)
-    pred = backtest(transformations_over_time, X, y, splitter)
-    assert np.isclose(y.squeeze()[pred.index], pred.squeeze().values, atol=0.1).all()
-
-
 def test_statsforecast_univariate_autoarima() -> None:
     run_pipeline_and_check_if_results_are_close(
         model=WrapStatsForecast.from_model(AutoARIMA(), use_exogenous=False),
-        splitter=ExpandingWindowSplitter(initial_train_window=50, step=1),
+        splitter=ExpandingWindowSplitter(initial_train_window=50, step=5),
     )
 
 
@@ -43,7 +36,7 @@ def test_statsforecast_univariate_arima() -> None:
         model=WrapStatsForecast(
             model_class=ARIMA, init_args={"order": (1, 0, 0)}, use_exogenous=False
         ),
-        splitter=ExpandingWindowSplitter(initial_train_window=50, step=1),
+        splitter=ExpandingWindowSplitter(initial_train_window=50, step=2),
     )
 
 

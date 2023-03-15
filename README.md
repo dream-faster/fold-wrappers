@@ -7,3 +7,4 @@ Available models:
 - [StatsForecast](https://github.com/Nixtla/statsforecast)
 - [XGBoost](https://github.com/dmlc/xgboost)
 - [Sktime](https://github.com/sktime/sktime)
+- [Statsmodels](https://github.com/statsmodels/statsmodels)

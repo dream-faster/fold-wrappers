@@ -6,7 +6,7 @@ import pandas as pd
 from fold.models.base import Model
 
 
-class WrapStatsForecast(Model):
+class WrapStatsModels(Model):
     properties = Model.Properties(
         model_type=Model.Properties.ModelType.regressor,
     )
@@ -14,13 +14,11 @@ class WrapStatsForecast(Model):
     def __init__(
         self,
         model_class: Type,
-        init_args: Optional[dict],
+        init_args: dict,
         use_exogenous: bool,
         online_mode: bool = False,
         instance: Optional[Any] = None,
     ) -> None:
-        init_args = {} if init_args is None else init_args
-        self.model = model_class(**init_args) if instance is None else instance
         self.model_class = model_class
         self.init_args = init_args
         self.use_exogenous = use_exogenous
@@ -29,7 +27,8 @@ class WrapStatsForecast(Model):
             if online_mode
             else Model.Properties.Mode.minibatch
         )
-        self.name = f"WrapStatsForecast-{self.model.__class__.__name__}"
+        self.name = f"WrapStatsModels-{self.model_class.__class__.__name__}"
+        self.instance = instance
 
     @classmethod
     def from_model(
@@ -37,10 +36,10 @@ class WrapStatsForecast(Model):
         model,
         use_exogenous: bool,
         online_mode: bool = False,
-    ) -> WrapStatsForecast:
+    ) -> WrapStatsModels:
         return cls(
-            model_class=model.__class__,
-            init_args={},
+            model_class=None,
+            init_args=None,
             use_exogenous=use_exogenous,
             instance=model,
             online_mode=online_mode,
@@ -50,33 +49,38 @@ class WrapStatsForecast(Model):
         self, X: pd.DataFrame, y: pd.Series, sample_weights: Optional[pd.Series] = None
     ) -> None:
         if self.use_exogenous:
-            self.model.fit(y=y.values, X=X.values)
+            self.model = (
+                self.model_class(y, X, **self.init_args)
+                if self.instance is None
+                else self.instance
+            )
+            self.model = self.model.fit()
         else:
-            self.model.fit(y=y.values)
+            self.model = (
+                self.model_class(y, **self.init_args)
+                if self.instance is None
+                else self.instance
+            )
+            self.model = self.model.fit()
 
     def update(
         self, X: pd.DataFrame, y: pd.Series, sample_weights: Optional[pd.Series] = None
     ) -> None:
-        if not hasattr(self.model, "forward"):
+        if not hasattr(self.model, "append"):
             return
+
         if self.use_exogenous:
-            self.model.forward(y=y.values, h=len(X), X=X.values)
+            self.model = self.model.append(endog=y, exog=X, refit=True)
         else:
-            self.model.forward(y=y.values, h=len(X))
+            self.model = self.model.append(endog=y, refit=True)
 
     def predict(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
         if self.use_exogenous:
             return pd.Series(
-                self.model.predict(h=len(X), X=X.values)["mean"], index=X.index
+                self.model.predict(start=X.index[0], end=X.index[-1], exog=X)
             )
         else:
-            return pd.Series(self.model.predict(h=len(X))["mean"], index=X.index)
+            return pd.Series(self.model.predict(start=X.index[0], end=X.index[-1]))
 
     def predict_in_sample(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
-        pred_dict = self.model.predict_in_sample()
-        if "fitted" in pred_dict:
-            return pd.Series(pred_dict["fitted"], index=X.index)
-        elif "mean" in pred_dict:
-            return pd.Series(pred_dict["mean"], index=X.index)
-        else:
-            raise ValueError("Unknown prediction dictionary structure")
+        return self.model.predict(start=X.index[0], end=X.index[-1])
