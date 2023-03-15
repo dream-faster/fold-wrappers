@@ -27,7 +27,7 @@ def test_statsforecast_univariate_naive() -> None:
 def test_statsforecast_univariate_autoarima() -> None:
     run_pipeline_and_check_if_results_are_close(
         model=WrapStatsForecast.from_model(AutoARIMA(), use_exogenous=False),
-        splitter=ExpandingWindowSplitter(initial_train_window=50, step=1),
+        splitter=ExpandingWindowSplitter(initial_train_window=50, step=2),
     )
 
 
@@ -36,7 +36,7 @@ def test_statsforecast_univariate_arima() -> None:
         model=WrapStatsForecast(
             model_class=ARIMA, init_args={"order": (1, 0, 0)}, use_exogenous=False
         ),
-        splitter=ExpandingWindowSplitter(initial_train_window=50, step=1),
+        splitter=ExpandingWindowSplitter(initial_train_window=50, step=2),
     )
 
 

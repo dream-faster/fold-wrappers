@@ -15,28 +15,28 @@ def test_statsmodels_univariate_arima() -> None:
     )
 
 
-# def test_statsforecast_univariate_arima_online() -> None:
-#     run_pipeline_and_check_if_results_are_close(
-#         model=WrapStatsModels(
-#             model_class=ARIMA,
-#             init_args={"order": (1, 0, 0)},
-#             use_exogenous=False,
-#             online_mode=True,
-#         ),
-#         splitter=ExpandingWindowSplitter(initial_train_window=50, step=10),
-#     )
+def test_statsforecast_univariate_arima_online() -> None:
+    run_pipeline_and_check_if_results_are_close(
+        model=WrapStatsModels(
+            model_class=ARIMA,
+            init_args={"order": (1, 0, 0)},
+            use_exogenous=False,
+            online_mode=True,
+        ),
+        splitter=ExpandingWindowSplitter(initial_train_window=50, step=10),
+    )
 
 
-# def test_statsforecast_multivariate_arima_online() -> None:
-#     run_pipeline_and_check_if_results_are_close(
-#         model=WrapStatsModels(
-#             model_class=ARIMA,
-#             init_args={"order": (1, 0, 0)},
-#             use_exogenous=True,
-#             online_mode=True,
-#         ),
-#         splitter=ExpandingWindowSplitter(initial_train_window=50, step=10),
-#     )
+def test_statsforecast_multivariate_arima_online() -> None:
+    run_pipeline_and_check_if_results_are_close(
+        model=WrapStatsModels(
+            model_class=ARIMA,
+            init_args={"order": (1, 0, 0)},
+            use_exogenous=True,
+            online_mode=True,
+        ),
+        splitter=ExpandingWindowSplitter(initial_train_window=50, step=10),
+    )
 
 
 def test_statsmodels_multivariate_arima() -> None:
