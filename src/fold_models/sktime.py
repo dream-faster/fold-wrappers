@@ -66,14 +66,14 @@ class WrapSktime(Model):
             self.model = self.model.update(y=y, update_params=True)
 
     def predict(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
-        fh = ForecastingHorizon([i for i in range(len(X))], is_relative=True)
+        fh = ForecastingHorizon(list(range(1, len(X) + 1)), is_relative=True)
         if self.use_exogenous:
             return self.model.predict(fh, X=X)
         else:
             return self.model.predict(fh)
 
     def predict_in_sample(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
-        fh = ForecastingHorizon([-i for i in range(len(X))], is_relative=True)
+        fh = ForecastingHorizon(X.index, is_relative=False)
         if self.use_exogenous:
             return self.model.predict(fh, X=X)
         else:
