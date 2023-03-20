@@ -12,9 +12,10 @@ class WrapXGB(Model):
     def __init__(
         self,
         model_class: Type,
-        init_args: dict,
+        init_args: Optional[dict],
         instance: Optional[Any] = None,
     ) -> None:
+        init_args = {} if init_args is None else init_args
         self.model_class = model_class
         self.init_args = init_args
 
