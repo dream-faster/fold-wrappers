@@ -5,7 +5,6 @@ from typing import Any, Optional, Type, Union
 import pandas as pd
 from fold.models.base import Model
 from fold.utils.checks import is_X_available
-from sktime.forecasting.base import ForecastingHorizon
 
 
 class WrapSktime(Model):
@@ -73,6 +72,8 @@ class WrapSktime(Model):
             self.model = self.model.update(y=y, update_params=True)
 
     def predict(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
+        from sktime.forecasting.base import ForecastingHorizon
+
         fh = ForecastingHorizon(list(range(1, len(X) + 1)), is_relative=True)
         use_exogenous = (
             is_X_available(X) if self.use_exogenous is None else self.use_exogenous
@@ -83,6 +84,8 @@ class WrapSktime(Model):
             return self.model.predict(fh)
 
     def predict_in_sample(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
+        from sktime.forecasting.base import ForecastingHorizon
+
         fh = ForecastingHorizon(X.index, is_relative=False)
         use_exogenous = (
             is_X_available(X) if self.use_exogenous is None else self.use_exogenous
