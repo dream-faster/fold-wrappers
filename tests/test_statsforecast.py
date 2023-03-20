@@ -2,7 +2,7 @@ import numpy as np
 from fold.loop import backtest, train
 from fold.splitters import ExpandingWindowSplitter
 from fold.utils.tests import generate_monotonous_data
-from statsforecast.models import ARIMA, MSTL, AutoARIMA, Naive
+from statsforecast.models import ARIMA, ETS, MSTL, AutoARIMA, Naive
 from utils import run_pipeline_and_check_if_results_are_close
 
 from fold_models.statsforecast import WrapStatsForecast
@@ -61,10 +61,19 @@ def test_statsforecast_univariate_mstl() -> None:
     )
 
 
-# def test_statsforecast_univariate_mstl_online() -> None:
-#     run_pipeline_and_check_if_results_are_close(
-#         model=WrapStatsForecast.from_model(
-#             MSTL(season_length=10), use_exogenous=False, online_mode=False
-#         ),
-#         splitter=ExpandingWindowSplitter(initial_train_window=50, step=10),
-#     )
+def test_statsforecast_univariate_mstl_online() -> None:
+    run_pipeline_and_check_if_results_are_close(
+        model=WrapStatsForecast.from_model(
+            MSTL(season_length=10), use_exogenous=False, online_mode=True
+        ),
+        splitter=ExpandingWindowSplitter(initial_train_window=50, step=10),
+    )
+
+
+def test_statsforecast_univariate_ets_online() -> None:
+    run_pipeline_and_check_if_results_are_close(
+        model=WrapStatsForecast.from_model(
+            ETS(season_length=3), use_exogenous=False, online_mode=True
+        ),
+        splitter=ExpandingWindowSplitter(initial_train_window=50, step=10),
+    )
