@@ -4,6 +4,7 @@ from typing import Any, Optional, Type, Union
 
 import pandas as pd
 from fold.models.base import Model
+from fold.utils.checks import is_X_available
 from sktime.forecasting.base import ForecastingHorizon
 
 
@@ -16,7 +17,7 @@ class WrapSktime(Model):
         self,
         model_class: Type,
         init_args: Optional[dict],
-        use_exogenous: bool,
+        use_exogenous: Optional[bool] = None,
         online_mode: bool = False,
         instance: Optional[Any] = None,
     ) -> None:
@@ -36,7 +37,7 @@ class WrapSktime(Model):
     def from_model(
         cls,
         model,
-        use_exogenous: bool,
+        use_exogenous: Optional[bool] = None,
         online_mode: bool = False,
     ) -> WrapSktime:
         return cls(
@@ -50,7 +51,10 @@ class WrapSktime(Model):
     def fit(
         self, X: pd.DataFrame, y: pd.Series, sample_weights: Optional[pd.Series] = None
     ) -> None:
-        if self.use_exogenous:
+        use_exogenous = (
+            is_X_available(X) if self.use_exogenous is None else self.use_exogenous
+        )
+        if use_exogenous:
             self.model.fit(y=y, X=X)
         else:
             self.model.fit(y=y)
@@ -60,21 +64,30 @@ class WrapSktime(Model):
     ) -> None:
         if not hasattr(self.model, "update"):
             return
-        if self.use_exogenous:
+        use_exogenous = (
+            is_X_available(X) if self.use_exogenous is None else self.use_exogenous
+        )
+        if use_exogenous:
             self.model = self.model.update(y=y, X=X, update_params=True)
         else:
             self.model = self.model.update(y=y, update_params=True)
 
     def predict(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
         fh = ForecastingHorizon(list(range(1, len(X) + 1)), is_relative=True)
-        if self.use_exogenous:
+        use_exogenous = (
+            is_X_available(X) if self.use_exogenous is None else self.use_exogenous
+        )
+        if use_exogenous:
             return self.model.predict(fh, X=X)
         else:
             return self.model.predict(fh)
 
     def predict_in_sample(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
         fh = ForecastingHorizon(X.index, is_relative=False)
-        if self.use_exogenous:
+        use_exogenous = (
+            is_X_available(X) if self.use_exogenous is None else self.use_exogenous
+        )
+        if use_exogenous:
             return self.model.predict(fh, X=X)
         else:
             return self.model.predict(fh)

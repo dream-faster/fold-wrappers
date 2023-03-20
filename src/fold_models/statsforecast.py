@@ -4,6 +4,7 @@ from typing import Any, Optional, Type, Union
 
 import pandas as pd
 from fold.models.base import Model
+from fold.utils.checks import is_X_available
 
 
 class WrapStatsForecast(Model):
@@ -15,7 +16,7 @@ class WrapStatsForecast(Model):
         self,
         model_class: Type,
         init_args: Optional[dict],
-        use_exogenous: bool,
+        use_exogenous: Optional[bool] = None,
         online_mode: bool = False,
         instance: Optional[Any] = None,
     ) -> None:
@@ -35,7 +36,7 @@ class WrapStatsForecast(Model):
     def from_model(
         cls,
         model,
-        use_exogenous: bool,
+        use_exogenous: Optional[bool] = None,
         online_mode: bool = False,
     ) -> WrapStatsForecast:
         return cls(
@@ -49,7 +50,10 @@ class WrapStatsForecast(Model):
     def fit(
         self, X: pd.DataFrame, y: pd.Series, sample_weights: Optional[pd.Series] = None
     ) -> None:
-        if self.use_exogenous:
+        use_exogenous = (
+            is_X_available(X) if self.use_exogenous is None else self.use_exogenous
+        )
+        if use_exogenous:
             self.model.fit(y=y.values, X=X.values)
         else:
             self.model.fit(y=y.values)
@@ -59,13 +63,19 @@ class WrapStatsForecast(Model):
     ) -> None:
         if not hasattr(self.model, "forward"):
             return
-        if self.use_exogenous:
+        use_exogenous = (
+            is_X_available(X) if self.use_exogenous is None else self.use_exogenous
+        )
+        if use_exogenous:
             self.model.forward(y=y.values, h=len(X), X=X.values)
         else:
             self.model.forward(y=y.values, h=len(X))
 
     def predict(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
-        if self.use_exogenous:
+        use_exogenous = (
+            is_X_available(X) if self.use_exogenous is None else self.use_exogenous
+        )
+        if use_exogenous:
             return pd.Series(
                 self.model.predict(h=len(X), X=X.values)["mean"], index=X.index
             )
