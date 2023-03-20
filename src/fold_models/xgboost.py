@@ -5,8 +5,10 @@ from typing import Any, Optional, Type, Union
 import pandas as pd
 from fold.models.base import Model
 
+from .base import Wrapper
 
-class WrapXGB(Model):
+
+class WrapXGB(Wrapper):
     properties = Model.Properties()
 
     def __init__(

@@ -5,8 +5,10 @@ from typing import Any, Optional, Type, Union
 import pandas as pd
 from fold.models.base import Model
 
+from .base import Wrapper
 
-class WrapStatsModels(Model):
+
+class WrapStatsModels(Wrapper):
     properties = Model.Properties(
         model_type=Model.Properties.ModelType.regressor,
     )

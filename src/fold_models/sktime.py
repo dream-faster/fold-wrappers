@@ -6,8 +6,10 @@ import pandas as pd
 from fold.models.base import Model
 from sktime.forecasting.base import ForecastingHorizon
 
+from .base import Wrapper
 
-class WrapSktime(Model):
+
+class WrapSktime(Wrapper):
     properties = Model.Properties(
         model_type=Model.Properties.ModelType.regressor,
     )
