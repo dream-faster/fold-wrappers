@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from copy import deepcopy
 from typing import Any, Optional, Type, Union
 
 import numpy as np
@@ -78,7 +79,8 @@ class WrapNeuralForecast(Model):
             {"ds": X.index, "y": [0.0] * len(X), "unique_id": 1.0},
             index=range(0, len(X)),
         )
-        predictions = self.nf.predict_rolled(
+        nf = deepcopy(self.nf)
+        predictions = nf.predict_rolled(
             data,
             n_windows=int((len(X) - self.model.input_size) / self.model.h),
             step_size=self.model.h,
