@@ -20,6 +20,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install ".[tests]"
-          pip install ".[prophet["
+          pip install ".[prophet]"
       - name: run-tests
-        run: pytest tests/prophet.py -s --durations 0
+        run: pytest tests/test_prophet.py -s --durations 0
