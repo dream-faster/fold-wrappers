@@ -59,8 +59,6 @@ class WrapProphet(Model):
     def predict(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
         data = pd.DataFrame({"ds": X.index})
         predictions = self.model.predict(data)
-        return pd.Series(
-            predictions["yhat"].values, index=X.index
-        )
+        return pd.Series(predictions["yhat"].values, index=X.index)
 
     predict_in_sample = predict
