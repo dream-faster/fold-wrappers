@@ -15,9 +15,9 @@ class WrapXGB(Model):
         init_args: Optional[dict],
         instance: Optional[Any] = None,
     ) -> None:
+        self.init_args = init_args
         init_args = {} if init_args is None else init_args
         self.model_class = model_class
-        self.init_args = init_args
 
         self.model = model_class(**init_args) if instance is None else instance
         from xgboost import XGBClassifier, XGBRegressor, XGBRFClassifier, XGBRFRegressor

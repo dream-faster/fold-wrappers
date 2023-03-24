@@ -19,10 +19,10 @@ class WrapProphet(Model):
         online_mode: bool = False,
         instance: Optional[Any] = None,
     ) -> None:
+        self.init_args = init_args
         init_args = {} if init_args is None else init_args
         self.model = model_class(**init_args) if instance is None else instance
         self.model_class = model_class
-        self.init_args = init_args
         self.properties.mode = (
             Model.Properties.Mode.online
             if online_mode
@@ -55,8 +55,14 @@ class WrapProphet(Model):
         y: Optional[pd.Series],
         sample_weights: Optional[pd.Series] = None,
     ) -> None:
+        if self.init_args is None:
+            raise ValueError(
+                "Cannot update model if init_args is None, probably .from_model constructor was used."
+            )
         data = pd.DataFrame({"ds": X.index, "y": y.values})
-        self.model.fit(data, init=warm_start_params(self.model))
+        old_model = self.model
+        self.model = self.model_class(**self.init_args)
+        self.model.fit(data, init=warm_start_params(old_model))
 
     def predict(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
         data = pd.DataFrame({"ds": X.index})
