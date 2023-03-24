@@ -67,6 +67,9 @@ statsmodels = [
 xgboost = [
   "xgboost"
 ]
+prophet = [
+  "prophet"
+]
 
 
 [tool.hatch.envs.quality]
