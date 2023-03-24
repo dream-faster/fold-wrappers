@@ -1,5 +1,4 @@
 <p align="center">
-  <a href="https://codecov.io/gh/dream-faster/fold-models" ><img src="https://codecov.io/gh/dream-faster/fold-models/branch/main/graph/badge.svg?token=Z7I2XSF188"/></a>
   <a href="https://github.com/dream-faster/fold-models/actions/workflows/test-statsforecast.yaml"><img alt="Statsforecast Tests" src="https://github.com/dream-faster/fold-models/actions/workflows/test-statsforecast.yaml/badge.svg"/></a>
   <a href="https://github.com/dream-faster/fold-models/actions/workflows/test-statsmodels.yaml"><img alt="StatsModels Tests" src="https://github.com/dream-faster/fold-models/actions/workflows/test-statsmodels.yaml/badge.svg"/></a>
   <a href="https://github.com/dream-faster/fold-models/actions/workflows/test-xgboost.yaml"><img alt="XGBoost Tests" src="https://github.com/dream-faster/fold-models/actions/workflows/test-xgboost.yaml/badge.svg"/></a>
