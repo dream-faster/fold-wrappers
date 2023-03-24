@@ -45,11 +45,8 @@ class WrapProphet(Model):
     def fit(
         self, X: pd.DataFrame, y: pd.Series, sample_weights: Optional[pd.Series] = None
     ) -> None:
-        data = pd.DataFrame(
-            {"ds": X.index, "y": y.values},
-            index=range(0, len(y)),
-        )
-        self.training_metrics = self.model.fit(data)
+        data = pd.DataFrame({"ds": X.index, "y": y.values})
+        self.model.fit(data)
 
     def update(
         self,
@@ -60,27 +57,10 @@ class WrapProphet(Model):
         pass
 
     def predict(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
-        data = pd.DataFrame(
-            {"ds": X.index, "y": 0.0},
-            index=range(0, len(X)),
-        )
-        future = self.model.make_future_dataframe(data, periods=len(X))
-        predictions = self.model.predict(future)["yhat1"]
+        data = pd.DataFrame({"ds": X.index})
+        predictions = self.model.predict(data)
         return pd.Series(
-            predictions.values, index=X.index, name=self.name + "_predictions"
+            predictions["yhat"].values, index=X.index
         )
 
-    def predict_in_sample(self, X: pd.DataFrame) -> Union[pd.Series, pd.DataFrame]:
-        return self.predict(X)
-
-    # def __deepcopy__(self, memo):
-    #     from io import BytesIO
-
-    #     from neuralprophet.utils import load, save
-
-    #     buff = BytesIO()
-
-    #     save(self.model, buff)
-    #     buff.seek(0)
-    #     model = load(buff)
-    #     return NeuralProphetWrapper(model)
+    predict_in_sample = predict
