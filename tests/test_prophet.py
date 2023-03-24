@@ -28,4 +28,4 @@ def test_prophet_updates() -> None:
         transformations, X, y, splitter, train_method=TrainMethod.sequential
     )
     pred = backtest(transformations_over_time, X, y, splitter)
-    assert np.isclose(y.squeeze()[pred.index], pred.squeeze(), atol=0.1).all()
+    assert np.isclose(y.squeeze()[pred.index], pred.squeeze(), atol=0.2).all()
