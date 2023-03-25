@@ -71,7 +71,8 @@ prophet = [
   "prophet"
 ]
 neuralforecast = [
-  "neuralforecast>=1.4"
+  "neuralforecast>=1.4",
+  pytorch-lightning>=1.9.0,<2.0.0
 ]
 
 
