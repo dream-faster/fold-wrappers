@@ -70,6 +70,9 @@ xgboost = [
 prophet = [
   "prophet"
 ]
+neuralforecast = [
+  "neuralforecast>=1.4"
+]
 
 
 [tool.hatch.envs.quality]
