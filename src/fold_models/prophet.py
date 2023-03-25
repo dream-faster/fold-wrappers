@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Optional, Type, Union
+from typing import Any, Dict, Optional, Type, Union
 
 import numpy as np
 import pandas as pd
@@ -15,7 +15,7 @@ class WrapProphet(Model):
     def __init__(
         self,
         model_class: Type,
-        init_args: Optional[dict],
+        init_args: Optional[Dict],
         online_mode: bool = False,
         instance: Optional[Any] = None,
     ) -> None:

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Optional, Type, Union
+from typing import Any, Dict, Optional, Type, Union
 
 import pandas as pd
 from fold.models.base import Model
@@ -12,7 +12,7 @@ class WrapXGB(Model):
     def __init__(
         self,
         model_class: Type,
-        init_args: Optional[dict],
+        init_args: Optional[Dict],
         instance: Optional[Any] = None,
     ) -> None:
         self.init_args = init_args
