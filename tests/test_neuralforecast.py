@@ -20,6 +20,7 @@ def test_neuralforecast_nbeats() -> None:
         NBEATS(
             input_size=input_size,
             h=step,
+            max_steps=50,
         ),
     )
     transformations_over_time = train(transformations, None, y, splitter)
@@ -36,7 +37,7 @@ def test_neuralforecast_nhits() -> None:
     model = NHITS(
         input_size=input_size,
         h=step,
-        max_epochs=50,
+        max_steps=50,
     )
     transformations = WrapNeuralForecast.from_model(model)
     transformations_over_time = train(transformations, None, y, splitter)
@@ -44,7 +45,6 @@ def test_neuralforecast_nhits() -> None:
 
     data = pd.DataFrame(
         {"ds": X[:400].index, "y": y[:400].values, "unique_id": 1.0},
-        index=range(0, len(y[:400])),
     )
     nf = NeuralForecast(models=[model], freq="m")
     nf.fit(data)
@@ -65,7 +65,7 @@ def test_neuralforecast_rnn() -> None:
         RNN(
             input_size=input_size,
             h=step,
-            max_epochs=50,
+            max_steps=50,
         ),
     )
     transformations_over_time = train(transformations, None, y, splitter)
