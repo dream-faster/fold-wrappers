@@ -81,7 +81,7 @@ You can quickly train your chosen models and get predictions by running:
 You can also wrap a model that you have initiate first:
 
 ```python
-wrapped_model = WrapStatsForecast.from_model(ARIMA(order=(1, 0, 0)),      use_exogenous=False,      online_mode=False  )
+wrapped_model = WrapStatsForecast.from_model(ARIMA(order=(1, 0, 0)), use_exogenous=False, online_mode=False  )
 ```
 ## Our Open-core Time Series Toolkit
 
