@@ -3,6 +3,7 @@
   <a href="https://github.com/dream-faster/fold-models/actions/workflows/test-statsmodels.yaml"><img alt="StatsModels Tests" src="https://github.com/dream-faster/fold-models/actions/workflows/test-statsmodels.yaml/badge.svg"/></a>
   <a href="https://github.com/dream-faster/fold-models/actions/workflows/test-xgboost.yaml"><img alt="XGBoost Tests" src="https://github.com/dream-faster/fold-models/actions/workflows/test-xgboost.yaml/badge.svg"/></a>
   <a href="https://github.com/dream-faster/fold-models/actions/workflows/test-sktime.yaml"><img alt="Sktime Tests" src="https://github.com/dream-faster/fold-models/actions/workflows/test-sktime.yaml/badge.svg"/></a>
+  <a href="https://github.com/dream-faster/fold-models/actions/workflows/test-prophet.yaml"><img alt="Prophet Test" src="https://github.com/dream-faster/fold-models/actions/workflows/test-prophet.yaml/badge.svg"/></a>
   <a href="https://github.com/dream-faster/fold-models/actions/workflows/test-baselines.yaml"><img alt="Baselines Tests" src="https://github.com/dream-faster/fold-models/actions/workflows/test-baselines.yaml/badge.svg"/></a>
   <a href="https://discord.gg/EKJQgfuBpE"><img alt="Discord Community" src="https://img.shields.io/badge/Discord-%235865F2.svg?logo=discord&logoColor=white"></a>
 </p>
