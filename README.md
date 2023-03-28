@@ -25,14 +25,41 @@
 </div>
 <br />
 
-# Available models:
+# Available models
+
+|                                                                                                                                                                                                                                                 | Name                                     |                        Link                        | Supports<br />Online <br />updating | Wrapper Name<br />& Import Location                                                          |
+| :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------- | :-------------------------------------------------: | :---------------------------------: | -------------------------------------------------------------------------------------------- |
+| `<img alt='Statsforecast Logo' src='https://raw.githubusercontent.com/Nixtla/neuralforecast/main/nbs/imgs_indx/logo_mid.png' height=64>`                                                                                                      | StatsForecast                            |   [GitHub](https://github.com/Nixtla/statsforecast)   |                 ❌                 | **WrapStatsForecast**<br /><br />`from fold_models.prophet import WrapStatsForecast` |
+| `<img alt='XGBoost Logo' src='https://camo.githubusercontent.com/0ea6e7814dd771f740509bbb668d251d485a6e21f12e287be7cc2275e0eab1d1/68747470733a2f2f7867626f6f73742e61692f696d616765732f6c6f676f2f7867626f6f73742d6c6f676f2e737667' height=64>` | XGBoost                                  |       [GitHub](https://github.com/dmlc/xgboost)       |                                    | <br />**WrapXGB**<br />`from fold_models.xgboost import WrapXGB`                     |
+| `<img alt='Sktime Logo' src='https://github.com/sktime/sktime/raw/main/docs/source/images/sktime-logo.jpg?raw=true' height=64>`                                                                                                               | Sktime                                   |       [GitHub](https://github.com/sktime/sktime)       |                 ✅                 | **WrapSktime**<br />`from fold_models.sktime import WrapSktime`                      |
+| `<img alt='Statsmodels Logo' src='https://github.com/statsmodels/statsmodels/raw/main/docs/source/images/statsmodels-logo-v2-horizontal.svg' width=160>`                                                                                      | Statsmodels                              |  [GitHub](https://github.com/statsmodels/statsmodels)  |                 ✅                 | **WrapStatsModels**<br />`from fold_models.statsmodels import WrapStatsModels`       |
+| `<img alt='Prophet Logo' src='https://miro.medium.com/v2/resize:fit:964/0*tVCene42rgUTNv9Q.png' width=160>`                                                                                                                                   | Prophet                                  |     [GitHub](https://github.com/facebook/prophet)     |                 ✅                 | **WrapProphet**<br />`from fold_models.prophet import WrapProphet`                   |
+| `<img alt='Scikit-Learn Logo' src='https://raw.githubusercontent.com/scikit-learn/scikit-learn/main/doc/logos/scikit-learn-logo.png' width=160>`                                                                                              | Sklearn (natively available in `fold`) | [GitHub](https://github.com/scikit-learn/scikit-learn) |             🟡``(some)             | Sklearn doesn't need to be wrapped,<br />just pass in the models.                            |
 
 
-|                                                                                                                                                                                                                                             | Name                                  |                                                         Link | Supports Online updating |
-| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------- | -------------------------------------------------------------: | :--------------------------: |
-| <img alt='Statsforecast Logo' src='https://raw.githubusercontent.com/Nixtla/neuralforecast/main/nbs/imgs_indx/logo_mid.png' height=64>                                                                                                      | StatsForecast                         |            [GitHub](https://github.com/Nixtla/statsforecast) | ❌                   |
-| <img alt='XGBoost Logo' src='https://camo.githubusercontent.com/0ea6e7814dd771f740509bbb668d251d485a6e21f12e287be7cc2275e0eab1d1/68747470733a2f2f7867626f6f73742e61692f696d616765732f6c6f676f2f7867626f6f73742d6c6f676f2e737667' height=64> | XGBoost                               |                    [GitHub](https://github.com/dmlc/xgboost) | ✅                      |
-| <img alt='Sktime Logo' src='https://github.com/sktime/sktime/raw/main/docs/source/images/sktime-logo.jpg?raw=true' height=64>                                                                                                               | Sktime                                |                   [GitHub](https://github.com/sktime/sktime) | ✅                  |
-| <img alt='Statsmodels Logo' src='https://github.com/statsmodels/statsmodels/raw/main/docs/source/images/statsmodels-logo-v2-horizontal.svg' width=160>                                                                                      | Statsmodels                           |         [GitHub](https://github.com/statsmodels/statsmodels) |✅                         |
-| <img alt='Prophet Logo' src='https://miro.medium.com/v2/resize:fit:964/0*tVCene42rgUTNv9Q.png' width=160>                                                                                                                                   | Prophet                               |                [GitHub](https://github.com/facebook/prophet) | ✅                        |
-| <img alt='Scikit-Learn Logo' src='https://raw.githubusercontent.com/scikit-learn/scikit-learn/main/doc/logos/scikit-learn-logo.png' width=160>                                                                                              | Sklearn (natively available in`fold`) | [GitHub](https://github.com/scikit-learn/scikit-learn)<br /> | 🟡  <br/>(some)             |
+# Quickstart
+
+You can quickly train your chosen models and get predictions by running:
+
+```python
+import pandas as pd
+from fold import train_evaluate, ExpandingWindowSplitter
+from fold.transformations import OnlyPredictions
+from fold.models.dummy import DummyRegressor
+from fold.utils.dataset import get_preprocessed_dataset
+
+X, y = get_preprocessed_dataset(
+    "weather/historical_hourly_la",
+    target_col="temperature",
+    shorten=1000
+)
+
+transformations = [
+    DummyRegressor(0),
+    OnlyPredictions(),
+]
+splitter = ExpandingWindowSplitter(initial_train_window=0.2, step=0.2)
+scorecard, prediction, trained_transformations = train_evaluate(
+    transformations, X, y, splitter
+)  
+```
