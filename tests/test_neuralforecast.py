@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from fold.loop import backtest, train
-from fold.splitters import ExpandingWindowSplitter, SingleWindowSplitter
+from fold.splitters import ExpandingWindowSplitter
 from fold.utils.tests import generate_monotonous_data, generate_sine_wave_data
 from neuralforecast import NeuralForecast
 from neuralforecast.models import NBEATS, NHITS
@@ -31,7 +31,7 @@ def test_neuralforecast_nhits() -> None:
     X, y = generate_monotonous_data(length=500)
 
     step = 100
-    splitter = SingleWindowSplitter(train_window=400)
+    splitter = ExpandingWindowSplitter(initial_train_window=400, step=step)
     model = NHITS(
         input_size=step,
         h=step,
