@@ -24,10 +24,6 @@ class WrapNeuralForecast(Model):
         self.model = model_class(**init_args) if instance is None else instance
         self.model_class = model_class
         self.name = f"WrapNeuraForecast-{self.model.__class__.__name__}"
-        from neuralforecast import NeuralForecast
-
-        self.nf = NeuralForecast(models=[self.model], freq="S")
-        assert type(self.model.h) is int, "Forecasting horizon/step must be an integer."
 
     @classmethod
     def from_model(
@@ -43,6 +39,11 @@ class WrapNeuralForecast(Model):
     def fit(
         self, X: pd.DataFrame, y: pd.Series, sample_weights: Optional[pd.Series] = None
     ) -> None:
+        from neuralforecast import NeuralForecast
+
+        self.nf = NeuralForecast(models=[self.model], freq=X.index.freqstr)
+        assert type(self.model.h) is int, "Forecasting horizon/step must be an integer."
+
         data = y.rename("y").to_frame()
         data["ds"] = X.index
         data["unique_id"] = 1.0
