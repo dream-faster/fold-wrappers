@@ -8,9 +8,6 @@ theme:
 
 nav:
     - 'index.md'
-    - 'continuous-validation.md'
-    - 'design.md'
-    - 'reference.md'
 
 plugins:
   - search
