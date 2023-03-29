@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Optional, Type, Union
+from typing import Any, Dict, Optional, Type, Union
 
 import pandas as pd
 from fold.models.base import Model
@@ -15,7 +15,7 @@ class WrapSktime(Model):
     def __init__(
         self,
         model_class: Type,
-        init_args: Optional[dict],
+        init_args: Optional[Dict],
         use_exogenous: Optional[bool] = None,
         online_mode: bool = False,
         instance: Optional[Any] = None,
