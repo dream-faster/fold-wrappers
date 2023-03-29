@@ -13,12 +13,11 @@ def test_neuralforecast_nbeats() -> None:
     X, y = generate_sine_wave_data(cycles=50)
 
     step = 100
-    input_size = 100
     splitter = ExpandingWindowSplitter(initial_train_window=400, step=step)
 
     transformations = WrapNeuralForecast.from_model(
         NBEATS(
-            input_size=input_size,
+            input_size=step,
             h=step,
             max_steps=50,
         ),
@@ -32,10 +31,9 @@ def test_neuralforecast_nhits() -> None:
     X, y = generate_monotonous_data(length=500)
 
     step = 100
-    input_size = 100
     splitter = SingleWindowSplitter(train_window=400)
     model = NHITS(
-        input_size=input_size,
+        input_size=step,
         h=step,
         max_steps=50,
     )
