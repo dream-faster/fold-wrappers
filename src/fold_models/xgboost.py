@@ -7,7 +7,7 @@ from fold.models.base import Model
 
 
 class WrapXGB(Model):
-    properties = Model.Properties()
+    properties = Model.Properties(requires_X=True)
 
     def __init__(
         self,

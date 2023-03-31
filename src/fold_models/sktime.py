@@ -9,6 +9,7 @@ from fold.utils.checks import is_X_available
 
 class WrapSktime(Model):
     properties = Model.Properties(
+        requires_X=False,
         model_type=Model.Properties.ModelType.regressor,
     )
 
