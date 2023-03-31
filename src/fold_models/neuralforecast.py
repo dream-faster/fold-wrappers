@@ -10,6 +10,7 @@ from fold.models.base import Model
 
 class WrapNeuralForecast(Model):
     properties = Model.Properties(
+        requires_X=False,
         model_type=Model.Properties.ModelType.regressor,
     )
 

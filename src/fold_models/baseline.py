@@ -14,6 +14,7 @@ class Naive(Model):
 
     name = "Naive"
     properties = Model.Properties(
+        requires_X=False,
         mode=Model.Properties.Mode.online,
         memory_size=1,
         _internal_supports_minibatch_backtesting=True,
@@ -43,6 +44,7 @@ class NaiveSeasonal(Model):
         assert seasonal_length > 1, "seasonal_length must be greater than 1"
         self.seasonal_length = seasonal_length
         self.properties = Model.Properties(
+            requires_X=False,
             mode=Model.Properties.Mode.online,
             memory_size=seasonal_length,
             _internal_supports_minibatch_backtesting=True,
@@ -72,6 +74,7 @@ class MovingAverage(Model):
     def __init__(self, window_size: int) -> None:
         self.window_size = window_size
         self.properties = Model.Properties(
+            requires_X=False,
             mode=Model.Properties.Mode.online,
             memory_size=window_size,
             _internal_supports_minibatch_backtesting=True,

@@ -9,6 +9,7 @@ from fold.models.base import Model
 
 class WrapProphet(Model):
     properties = Model.Properties(
+        requires_X=False,
         model_type=Model.Properties.ModelType.regressor,
     )
 
