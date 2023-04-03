@@ -3,8 +3,8 @@ from __future__ import annotations
 from typing import Union
 
 import pandas as pd
+from fold.base import fit_noop
 from fold.models.base import Model
-from fold.transformations.base import fit_noop
 
 
 class Naive(Model):
