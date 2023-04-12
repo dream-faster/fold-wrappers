@@ -17,11 +17,6 @@ def wrap_transformation_if_possible(model: Model) -> Model:
         and __wrap_statsforecast(model) is not None
     ):
         return __wrap_statsforecast(model)  # type: ignore
-    elif (
-        find_spec("neuralforecast") is not None
-        and __wrap_neuralforecast(model) is not None
-    ):
-        return __wrap_neuralforecast(model)  # type: ignore
     else:
         return model
 
@@ -82,22 +77,5 @@ def __wrap_statsforecast(model):
 
     if isinstance(model, _TS):
         return WrapStatsForecast.from_model(model)
-    else:
-        return None
-
-
-def __wrap_neuralforecast(model):
-    from neuralforecast.common._base_auto import BaseAuto
-    from neuralforecast.common._base_recurrent import BaseRecurrent
-    from neuralforecast.common._base_windows import BaseWindows
-
-    from .neuralforecast import WrapNeuralForecast
-
-    if (
-        isinstance(model, BaseWindows)
-        or isinstance(model, BaseRecurrent)
-        or isinstance(model, BaseAuto)
-    ):
-        return WrapNeuralForecast.from_model(model)
     else:
         return None

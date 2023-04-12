@@ -1,4 +1,6 @@
+from fold.loop import train_backtest
 from fold.splitters import ExpandingWindowSplitter, SingleWindowSplitter
+from fold.utils.tests import generate_monotonous_data
 from sktime.forecasting.arima import ARIMA, AutoARIMA
 from sktime.forecasting.naive import NaiveForecaster
 from utils import (
@@ -35,6 +37,16 @@ def test_sktime_univariate_arima() -> None:
             online_mode=False,
         ),
         splitter=SingleWindowSplitter(train_window=50),
+    )
+
+
+def test_automatic_wrapping_sktime() -> None:
+    X, y = generate_monotonous_data()
+    train_backtest(
+        ARIMA(order=(1, 1, 0)),
+        X,
+        y,
+        splitter=SingleWindowSplitter(0.5),
     )
 
 
