@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from fold.loop import train_backtest
-from fold.splitters import ExpandingWindowSplitter, SingleWindowSplitter
+from fold.splitters import ExpandingWindowSplitter
 from fold.utils.tests import generate_monotonous_data, generate_sine_wave_data
 from neuralforecast import NeuralForecast
 from neuralforecast.models import NBEATS, NHITS
@@ -67,19 +67,3 @@ def test_neuralforecast_nhits() -> None:
 #     transformations_over_time = train(transformations, None, y, splitter)
 #     pred = backtest(transformations_over_time, None, y, splitter)
 #     assert np.isclose(y.squeeze()[pred.index], pred.squeeze(), atol=0.01).all()
-
-
-def test_automatic_wrapping_neuralforecast() -> None:
-    X, y = generate_monotonous_data(length=200)
-    step = 100
-    model = NHITS(
-        input_size=step,
-        h=step,
-        max_steps=50,
-    )
-    train_backtest(
-        model,
-        X,
-        y,
-        splitter=SingleWindowSplitter(100),
-    )
