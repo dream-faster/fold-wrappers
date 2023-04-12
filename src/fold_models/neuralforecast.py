@@ -68,7 +68,8 @@ class WrapNeuralForecast(Model):
 
         if len(predicted) != len(X):
             raise ValueError(
-                "Step size (of the Splitter) and `h` (forecasting horizon) must be equal."
+                "Step size (of the Splitter) and `h` (forecasting horizon) must be"
+                " equal."
             )
         else:
             return pd.Series(

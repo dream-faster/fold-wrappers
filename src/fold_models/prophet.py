@@ -58,7 +58,8 @@ class WrapProphet(Model):
     ) -> None:
         if self.init_args is None:
             raise ValueError(
-                "Cannot update model if init_args is None, probably .from_model constructor was used."
+                "Cannot update model if init_args is None, probably .from_model"
+                " constructor was used."
             )
         data = pd.DataFrame({"ds": X.index, "y": y.values})
         old_model = self.model
