@@ -32,7 +32,7 @@ def test_statsforecast_univariate_autoarima() -> None:
 def test_statsforecast_exogenous_autoarima() -> None:
     run_pipeline_and_check_if_results_close_exogenous(
         model=[WrapStatsForecast.from_model(AutoARIMA())],
-        splitter=ExpandingWindowSplitter(initial_train_window=50, step=5),
+        splitter=ExpandingWindowSplitter(initial_train_window=50, step=2),
     )
 
 
