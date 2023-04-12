@@ -1,5 +1,5 @@
 import numpy as np
-from fold.loop import backtest, train
+from fold.loop import train_backtest
 from fold.splitters import ExpandingWindowSplitter
 from fold.transformations.columns import OnlyPredictions
 from fold.transformations.dev import Test
@@ -22,8 +22,7 @@ def test_baseline_naive() -> None:
         Test(fit_func=check_if_not_nan, transform_func=lambda X: X),
         OnlyPredictions(),
     ]
-    transformations_over_time = train(transformations, X, y, splitter)
-    pred = backtest(transformations_over_time, X, y, splitter)
+    pred, _ = train_backtest(transformations, X, y, splitter)
     assert (
         pred.squeeze() == y.shift(1)[pred.index]
     ).all()  # last year's value should match this year's value, with the sine wave we generated
@@ -46,8 +45,7 @@ def test_baseline_naive_seasonal() -> None:
         Test(fit_func=check_if_not_nan, transform_func=lambda X: X),
         OnlyPredictions(),
     ]
-    transformations_over_time = train(transformations, X, y, splitter)
-    pred = backtest(transformations_over_time, X, y, splitter)
+    pred, _ = train_backtest(transformations, X, y, splitter)
     assert np.isclose(
         pred.squeeze(), y[pred.index], atol=0.02
     ).all()  # last year's value should match this year's value, with the sine wave we generated
@@ -68,8 +66,7 @@ def test_baseline_mean() -> None:
         Test(fit_func=check_if_not_nan, transform_func=lambda X: X),
         OnlyPredictions(),
     ]
-    transformations_over_time = train(transformations, X, y, splitter)
-    pred = backtest(transformations_over_time, X, y, splitter)
+    pred, _ = train_backtest(transformations, X, y, splitter)
     assert np.isclose(
         y.shift(1).rolling(12).mean()[pred.index], pred.squeeze(), atol=0.01
     ).all()

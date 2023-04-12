@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from fold.loop import backtest, train
+from fold.loop import train_backtest
 from fold.splitters import ExpandingWindowSplitter
 from fold.utils.tests import generate_monotonous_data, generate_sine_wave_data
 from neuralforecast import NeuralForecast
@@ -22,8 +22,7 @@ def test_neuralforecast_nbeats() -> None:
             max_steps=50,
         ),
     )
-    transformations_over_time = train(transformations, None, y, splitter)
-    pred = backtest(transformations_over_time, None, y, splitter)
+    pred, _ = train_backtest(transformations, X, y, splitter)
     assert np.isclose(y.squeeze()[pred.index], pred.squeeze(), atol=0.1).all()
 
 
@@ -38,8 +37,7 @@ def test_neuralforecast_nhits() -> None:
         max_steps=50,
     )
     transformations = WrapNeuralForecast.from_model(model)
-    transformations_over_time = train(transformations, None, y, splitter)
-    pred = backtest(transformations_over_time, None, y, splitter)
+    pred, _ = train_backtest(transformations, X, y, splitter)
 
     data = pd.DataFrame(
         {"ds": X[:400].index, "y": y[:400].values, "unique_id": 1.0},
