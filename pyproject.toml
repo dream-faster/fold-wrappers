@@ -75,7 +75,7 @@ neuralforecast = [
   "torch<2.0.0",
 ]
 lightgbm = [
-  "lightgbm'
+  "lightgbm"
 ]
 
 [tool.hatch.envs.quality]
