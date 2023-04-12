@@ -16,7 +16,7 @@ def test_statsforecast_univariate_naive() -> None:
 
     splitter = ExpandingWindowSplitter(initial_train_window=50, step=1)
     pipeline = WrapStatsForecast(model_class=Naive, init_args={})
-    pred = train_backtest(pipeline, None, y, splitter)
+    pred, _ = train_backtest(pipeline, None, y, splitter)
     assert np.isclose(
         y.squeeze().shift(1)[pred.index][:-1], pred.squeeze()[:-1], atol=0.01
     ).all()
