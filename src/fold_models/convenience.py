@@ -4,28 +4,29 @@ from fold.models.base import Model
 
 
 def wrap_transformation_if_possible(model: Model) -> Model:
-    if find_spec("xgboost") is not None and wrap_xgboost(model) is not None:
-        return wrap_xgboost(model)  # type: ignore (we already check if it's not None)
-    elif find_spec("lightgbm") is not None and wrap_lightgbm(model) is not None:
-        return wrap_xgboost(model)  # type: ignore
-    elif find_spec("prophet") is not None and wrap_prophet(model) is not None:
-        return wrap_prophet(model)  # type: ignore
-    elif find_spec("sktime") is not None and wrap_sktime(model) is not None:
-        return wrap_sktime(model)  # type: ignore
+    if find_spec("xgboost") is not None and __wrap_xgboost(model) is not None:
+        return __wrap_xgboost(model)  # type: ignore (we already check if it's not None)
+    elif find_spec("lightgbm") is not None and __wrap_lightgbm(model) is not None:
+        return __wrap_xgboost(model)  # type: ignore
+    elif find_spec("prophet") is not None and __wrap_prophet(model) is not None:
+        return __wrap_prophet(model)  # type: ignore
+    elif find_spec("sktime") is not None and __wrap_sktime(model) is not None:
+        return __wrap_sktime(model)  # type: ignore
     elif (
-        find_spec("statsforecast") is not None and wrap_statsforecast(model) is not None
+        find_spec("statsforecast") is not None
+        and __wrap_statsforecast(model) is not None
     ):
-        return wrap_statsforecast(model)  # type: ignore
+        return __wrap_statsforecast(model)  # type: ignore
     elif (
         find_spec("neuralforecast") is not None
-        and wrap_neuralforecast(model) is not None
+        and __wrap_neuralforecast(model) is not None
     ):
-        return wrap_neuralforecast(model)  # type: ignore
+        return __wrap_neuralforecast(model)  # type: ignore
     else:
         return model
 
 
-def wrap_xgboost(model):
+def __wrap_xgboost(model):
     from xgboost import XGBClassifier, XGBRegressor, XGBRFClassifier, XGBRFRegressor
 
     from .xgboost import WrapXGB
@@ -41,7 +42,7 @@ def wrap_xgboost(model):
         return None
 
 
-def wrap_lightgbm(model):
+def __wrap_lightgbm(model):
     from lightgbm import LGBMClassifier, LGBMRegressor
 
     from .lightgbm import WrapLGBM
@@ -52,7 +53,7 @@ def wrap_lightgbm(model):
         return None
 
 
-def wrap_prophet(model):
+def __wrap_prophet(model):
     from prophet import Prophet
 
     from .prophet import WrapProphet
@@ -63,7 +64,7 @@ def wrap_prophet(model):
         return None
 
 
-def wrap_sktime(model):
+def __wrap_sktime(model):
     from sktime.forecasting.base import BaseForecaster
 
     from .sktime import WrapSktime
@@ -74,7 +75,7 @@ def wrap_sktime(model):
         return None
 
 
-def wrap_statsforecast(model):
+def __wrap_statsforecast(model):
     from statsforecast.models import _TS
 
     from .statsforecast import WrapStatsForecast
@@ -85,7 +86,7 @@ def wrap_statsforecast(model):
         return None
 
 
-def wrap_neuralforecast(model):
+def __wrap_neuralforecast(model):
     from neuralforecast.common._base_auto import BaseAuto
     from neuralforecast.common._base_recurrent import BaseRecurrent
     from neuralforecast.common._base_windows import BaseWindows
