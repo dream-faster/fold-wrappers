@@ -3,7 +3,7 @@ from fold.splitters import ExpandingWindowSplitter, SingleWindowSplitter
 from fold.utils.tests import generate_monotonous_data, generate_sine_wave_data
 from xgboost import XGBRegressor
 
-from fold_models.xgboost import WrapXGB
+from fold_wrapper.xgboost import WrapXGB
 
 
 def test_xgboost() -> None:

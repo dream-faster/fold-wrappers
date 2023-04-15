@@ -4,7 +4,7 @@ from fold.splitters import ExpandingWindowSplitter, SingleWindowSplitter
 from fold.utils.tests import generate_monotonous_data, generate_sine_wave_data
 from prophet import Prophet
 
-from fold_models.prophet import WrapProphet
+from fold_wrapper.prophet import WrapProphet
 
 
 def test_prophet() -> None:

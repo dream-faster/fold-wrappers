@@ -1,4 +1,3 @@
-from .baseline import MovingAverage, Naive, NaiveSeasonal
 from .lightgbm import WrapLGBM
 from .neuralforecast import WrapNeuralForecast
 from .prophet import WrapProphet
