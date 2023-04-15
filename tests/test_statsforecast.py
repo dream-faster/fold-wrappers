@@ -8,7 +8,7 @@ from utils import (
     run_pipeline_and_check_if_results_close_univariate,
 )
 
-from fold_models.statsforecast import WrapStatsForecast
+from fold_wrapper.statsforecast import WrapStatsForecast
 
 
 def test_statsforecast_univariate_naive() -> None:

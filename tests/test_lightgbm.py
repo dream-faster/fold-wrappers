@@ -3,7 +3,7 @@ from fold.splitters import ExpandingWindowSplitter, SingleWindowSplitter
 from fold.utils.tests import generate_monotonous_data, generate_sine_wave_data
 from lightgbm import LGBMRegressor
 
-from fold_models.lightgbm import WrapLGBM
+from fold_wrapper.lightgbm import WrapLGBM
 
 
 def test_lgbm() -> None:

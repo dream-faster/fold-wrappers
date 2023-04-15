@@ -6,7 +6,7 @@ from fold.utils.tests import generate_monotonous_data, generate_sine_wave_data
 from neuralforecast import NeuralForecast
 from neuralforecast.models import NBEATS, NHITS
 
-from fold_models.neuralforecast import WrapNeuralForecast
+from fold_wrapper.neuralforecast import WrapNeuralForecast
 
 
 def test_neuralforecast_nbeats() -> None:
