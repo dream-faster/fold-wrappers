@@ -8,7 +8,7 @@ from utils import (
     run_pipeline_and_check_if_results_close_univariate,
 )
 
-from fold_wrapper.sktime import WrapSktime
+from fold_wrappers.sktime import WrapSktime
 
 
 def test_sktime_univariate_naiveforecaster() -> None:
