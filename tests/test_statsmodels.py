@@ -6,7 +6,7 @@ from utils import (
     run_pipeline_and_check_if_results_close_univariate,
 )
 
-from fold_wrapper.statsmodels import WrapStatsModels
+from fold_wrappers.statsmodels import WrapStatsModels
 
 
 def test_statsmodels_univariate_arima() -> None:
