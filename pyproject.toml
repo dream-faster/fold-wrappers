@@ -3,7 +3,7 @@ build-backend = "hatchling.build"
 requires = ["hatchling"]
 
 [project]
-name = "fold-wrapper"
+name = "fold-wrappers"
 version = "0.0.1"
 authors = [
   { name="Mark Aron Szulyovszky", email="mark@dreamfaster.ai" },
@@ -32,9 +32,9 @@ readme = "README.md"
 requires-python = ">=3.7"
 
 [project.urls]
-Documentation = "https://dream-faster.github.io/fold-wrapper"
-Issues = "https://github.com/dream-faster/fold-wrapper/issues"
-Source = "https://github.com/dream-faster/fold-wrapper"
+Documentation = "https://dream-faster.github.io/fold-wrappers"
+Issues = "https://github.com/dream-faster/fold-wrappers/issues"
+Source = "https://github.com/dream-faster/fold-wrappers"
 
 [project.optional-dependencies]
 quality = [
@@ -80,7 +80,7 @@ lightgbm = [
 
 [tool.hatch.envs.quality]
 dependencies = [
-  "fold-wrapper[quality]",
+  "fold-wrappers[quality]",
 ]
 detached = true
 
@@ -97,7 +97,7 @@ format = [
 ]
 
 [tool.hatch.envs.test]
-dependencies = ["fold-wrapper[tests]"]
+dependencies = ["fold-wrappers[tests]"]
 
 [tool.hatch.envs.test.scripts]
 run = "pytest tests/ --durations 0 -s"
