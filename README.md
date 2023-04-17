@@ -15,7 +15,7 @@
   <a href="https://dream-faster.github.io/fold/">
     <img src="https://raw.githubusercontent.com/dream-faster/fold-wrappers/main/docs/images/logo.svg" alt="Logo" width="90" >
   </a>
-<h3 align="center"><b>fold-wrappers</b><br> <i>(/fold models/)</i></h3>
+<h3 align="center"><b>fold-wrappers</b><br> <i>(/fold wrappers/)</i></h3>
   <p align="center">
     <b>Model wrappers for 3rd party libraries.
     <br/>To be used with  <a href='https://github.com/dream-faster/fold'>Fold.</a> </b><br>
