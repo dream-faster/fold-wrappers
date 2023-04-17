@@ -2,9 +2,8 @@ import numpy as np
 from fold.loop import TrainMethod, train_backtest
 from fold.splitters import ExpandingWindowSplitter, SingleWindowSplitter
 from fold.utils.tests import generate_monotonous_data, generate_sine_wave_data
-from prophet import Prophet
-
 from fold_wrappers.prophet import WrapProphet
+from prophet import Prophet
 
 
 def test_prophet() -> None:

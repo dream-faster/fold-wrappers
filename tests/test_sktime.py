@@ -1,14 +1,13 @@
 from fold.loop import train_backtest
 from fold.splitters import ExpandingWindowSplitter, SingleWindowSplitter
 from fold.utils.tests import generate_monotonous_data
+from fold_wrappers.sktime import WrapSktime
 from sktime.forecasting.arima import ARIMA, AutoARIMA
 from sktime.forecasting.naive import NaiveForecaster
 from utils import (
     run_pipeline_and_check_if_results_close_exogenous,
     run_pipeline_and_check_if_results_close_univariate,
 )
-
-from fold_wrappers.sktime import WrapSktime
 
 
 def test_sktime_univariate_naiveforecaster() -> None:
