@@ -1,8 +1,9 @@
 from fold.loop import train_backtest
 from fold.splitters import ExpandingWindowSplitter, SingleWindowSplitter
 from fold.utils.tests import generate_monotonous_data, generate_sine_wave_data
-from fold_wrappers.xgboost import WrapXGB
 from xgboost import XGBRegressor
+
+from fold_wrappers.xgboost import WrapXGB
 
 
 def test_xgboost() -> None:

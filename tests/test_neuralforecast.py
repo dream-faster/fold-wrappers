@@ -3,9 +3,10 @@ import pandas as pd
 from fold.loop import train_backtest
 from fold.splitters import ExpandingWindowSplitter
 from fold.utils.tests import generate_monotonous_data, generate_sine_wave_data
-from fold_wrappers.neuralforecast import WrapNeuralForecast
 from neuralforecast import NeuralForecast
 from neuralforecast.models import NBEATS, NHITS
+
+from fold_wrappers.neuralforecast import WrapNeuralForecast
 
 
 def test_neuralforecast_nbeats() -> None:

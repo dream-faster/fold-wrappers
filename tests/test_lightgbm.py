@@ -1,8 +1,9 @@
 from fold.loop import train_backtest
 from fold.splitters import ExpandingWindowSplitter, SingleWindowSplitter
 from fold.utils.tests import generate_monotonous_data, generate_sine_wave_data
-from fold_wrappers.lightgbm import WrapLGBM
 from lightgbm import LGBMRegressor
+
+from fold_wrappers.lightgbm import WrapLGBM
 
 
 def test_lgbm() -> None:

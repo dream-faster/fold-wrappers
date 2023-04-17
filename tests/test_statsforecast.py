@@ -2,12 +2,13 @@ import numpy as np
 from fold.loop import train_backtest
 from fold.splitters import ExpandingWindowSplitter, SingleWindowSplitter
 from fold.utils.tests import generate_monotonous_data
-from fold_wrappers.statsforecast import WrapStatsForecast
 from statsforecast.models import ARIMA, MSTL, AutoARIMA, Naive
 from utils import (
     run_pipeline_and_check_if_results_close_exogenous,
     run_pipeline_and_check_if_results_close_univariate,
 )
+
+from fold_wrappers.statsforecast import WrapStatsForecast
 
 
 def test_statsforecast_univariate_naive() -> None:
