@@ -1,7 +1,8 @@
 from fold import ExpandingWindowSplitter, train_evaluate
 from fold.utils.dataset import get_preprocessed_dataset
-from fold_wrappers import WrapStatsForecast
 from statsforecast.models import ARIMA
+
+from fold_wrappers import WrapStatsForecast
 
 X, y = get_preprocessed_dataset(
     "weather/historical_hourly_la", target_col="temperature", shorten=1000
