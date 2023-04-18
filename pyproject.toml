@@ -45,6 +45,7 @@ quality = [
 ]
 tests = [
   "pytest~=7.1.2",
+  "fold-core~=0.0.4",
 ]
 docs = [
   "mkdocs-material",
