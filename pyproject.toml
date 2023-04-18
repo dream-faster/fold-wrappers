@@ -23,7 +23,7 @@ classifiers = [
 ]
 dependencies = [
   "numpy",
-  "fold @ https://github.com/dream-faster/fold/archive/main.zip",
+  "fold-core~=0.0.4",
 ]
 description = "Model wrappers for fold."
 keywords = []
@@ -45,7 +45,6 @@ quality = [
 ]
 tests = [
   "pytest~=7.1.2",
-  "fold @ https://github.com/dream-faster/fold/archive/main.zip",
 ]
 docs = [
   "mkdocs-material",
@@ -126,3 +125,21 @@ pythonpath = [
   "src"
 ]
 testpaths = ["tests"]
+
+# bumpver command: ``bumpver update --patch``
+[tool.bumpver]
+current_version = "0.0.1"
+version_pattern = "MAJOR.MINOR.PATCH"
+commit_message = "chore(Release): Bump version from {old_version} -> {new_version}"
+commit = true
+tag = true
+push = false
+
+[tool.bumpver.file_patterns]
+"pyproject.toml" = [
+    'current_version = "{version}"',
+    'version = "{version}"'
+]
+
+[tool.hatch.version]
+path = "src/fold_wrappers/__init__.py"
