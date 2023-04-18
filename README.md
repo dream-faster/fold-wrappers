@@ -104,7 +104,4 @@ Submit an issue or reach out to us on info at dream-faster.ai for any inquiries.
 
 ## Licence & Usage
 
-Fold is our open-core Time Series engine. It is available under the MIT + Common Clause licence.
-We want to **bring much-needed transparency, speed and rigour** to the process of building Time Series ML models. We're building multiple products with and on top of it.
-
-It will be always free for research useage, but we will be charging for deployment, and for extra features that are results of our own resource-intensive R&D. We're building a sustainable business, that supports the ecosystem long-term.
+Fold-wrappers is under the MIT Licence, but `fold` is not. [Read more](https://dream-faster.github.io/fold/product/license/) 
