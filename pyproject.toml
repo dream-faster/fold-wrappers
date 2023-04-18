@@ -25,7 +25,7 @@ dependencies = [
   "numpy",
   "fold-core~=0.0.4",
 ]
-description = "Model wrappers for fold."
+description = "3rd party model wrappers for fold."
 keywords = []
 license = { file="LICENSE" }
 readme = "README.md"
