@@ -80,7 +80,7 @@ lightgbm = [
 
 [tool.hatch.envs.quality]
 dependencies = [
-  "fold-wrappers[quality]",
+  ".[quality]",
 ]
 detached = true
 
@@ -97,7 +97,7 @@ format = [
 ]
 
 [tool.hatch.envs.test]
-dependencies = ["fold-wrappers[tests]"]
+dependencies = [".[tests]"]
 
 [tool.hatch.envs.test.scripts]
 run = "pytest tests/ --durations 0 -s"
@@ -117,6 +117,9 @@ exclude = [
   "/.gitignore",
   "/tests",
 ]
+
+[tool.hatch.build]
+sources = ["src"]
 
 [tool.hatch.metadata]
 allow-direct-references = true
