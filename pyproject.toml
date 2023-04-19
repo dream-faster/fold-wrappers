@@ -23,10 +23,10 @@ classifiers = [
 ]
 dependencies = [
   "numpy",
-  "fold-core~=0.0.4",
+  "fold-core~=0.1",
 ]
 description = "3rd party model wrappers for fold."
-keywords = []
+keywords = ["time-series", "machine-learning", "forecasting", "forecast", "nowcast", "models", "time-series-regression", "time-series-classification", "financial-machine-learning"]
 license = { file="LICENSE" }
 readme = "README.md"
 requires-python = ">=3.7"
@@ -45,7 +45,7 @@ quality = [
 ]
 tests = [
   "pytest~=7.1.2",
-  "fold-core~=0.0.4",
+  "fold-core~=0.1",
 ]
 docs = [
   "mkdocs-material",
