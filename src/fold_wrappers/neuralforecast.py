@@ -24,7 +24,7 @@ class WrapNeuralForecast(Model):
         init_args = {} if init_args is None else init_args
         self.model = model_class(**init_args) if instance is None else instance
         self.model_class = model_class
-        self.name = f"WrapNeuraForecast-{self.model.__class__.__name__}"
+        self.name = self.model_class.__class__.__name__
 
     @classmethod
     def from_model(

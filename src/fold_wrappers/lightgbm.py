@@ -28,7 +28,7 @@ class WrapLGBM(Model):
             self.properties.model_type = Model.Properties.ModelType.classifier
         else:
             raise ValueError(f"Unknown model type: {type(self.model)}")
-        self.name = f"WrapLGBM-{self.model_class.__class__.__name__}"
+        self.name = self.model_class.__class__.__name__
 
     @classmethod
     def from_model(

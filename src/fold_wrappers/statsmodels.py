@@ -30,7 +30,7 @@ class WrapStatsModels(Model):
             if online_mode
             else Model.Properties.Mode.minibatch
         )
-        self.name = f"WrapStatsModels-{self.model_class.__class__.__name__}"
+        self.name = self.model_class.__class__.__name__
         self.instance = instance
 
     def fit(
