@@ -31,7 +31,7 @@ class WrapStatsForecast(Model):
             if online_mode
             else Model.Properties.Mode.minibatch
         )
-        self.name = f"WrapStatsForecast-{self.model.__class__.__name__}"
+        self.name = self.model_class.__class__.__name__
 
     @classmethod
     def from_model(

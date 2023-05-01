@@ -22,7 +22,6 @@ class WrapXGB(Model):
         self.model = model_class(**init_args) if instance is None else instance
         from xgboost import XGBClassifier, XGBRegressor, XGBRFClassifier, XGBRFRegressor
 
-        self.name = f"XGB-{self.model.__class__.__name__}"
         if isinstance(self.model, XGBRegressor) or isinstance(
             self.model, XGBRFRegressor
         ):
@@ -33,7 +32,7 @@ class WrapXGB(Model):
             self.properties.model_type = Model.Properties.ModelType.classifier
         else:
             raise ValueError(f"Unknown model type: {type(self.model)}")
-        self.name = f"WrapXGB-{self.model_class.__class__.__name__}"
+        self.name = self.model_class.__class__.__name__
 
     @classmethod
     def from_model(
