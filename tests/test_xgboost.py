@@ -1,18 +1,47 @@
+import numpy as np
+import pandas as pd
 from fold.loop import train_backtest
 from fold.splitters import ExpandingWindowSplitter, SingleWindowSplitter
-from fold.utils.tests import generate_monotonous_data, generate_sine_wave_data
-from xgboost import XGBRegressor
+from fold.utils.tests import (
+    generate_monotonous_data,
+    generate_sine_wave_data,
+    generate_zeros_and_ones,
+    tuneability_test,
+)
+from xgboost import XGBClassifier, XGBRegressor
 
 from fold_wrappers.xgboost import WrapXGB
 
 
-def test_xgboost() -> None:
+def test_xgboost_regression() -> None:
     X, y = generate_sine_wave_data()
+    sample_weights = pd.Series(np.ones(len(y)), index=y.index)
 
     splitter = ExpandingWindowSplitter(initial_train_window=500, step=100)
     transformations = WrapXGB.from_model(XGBRegressor())
-    pred, _ = train_backtest(transformations, X, y, splitter)
+    pred, _ = train_backtest(
+        transformations, X, y, splitter, sample_weights=sample_weights
+    )
     assert (y.squeeze()[pred.index] - pred.squeeze()).abs().sum() < 20
+    tuneability_test(
+        WrapXGB.from_model(XGBRegressor(n_estimators=1)),
+        different_params=dict(n_estimators=100),
+        init_function=lambda **kwargs: WrapXGB.from_model(XGBRegressor(**kwargs)),
+    )
+
+
+def test_xgboost_classification() -> None:
+    X, y = generate_zeros_and_ones()
+    sample_weights = pd.Series(np.ones(len(y)), index=y.index)
+
+    splitter = ExpandingWindowSplitter(initial_train_window=500, step=100)
+    transformations = WrapXGB.from_model(XGBClassifier())
+    pred, _ = train_backtest(
+        transformations, X, y, splitter, sample_weights=sample_weights
+    )
+    assert "predictions_XGBClassifier" in pred.columns
+    assert "probabilities_XGBClassifier_0.0" in pred.columns
+    assert "probabilities_XGBClassifier_1.0" in pred.columns
 
 
 def test_automatic_wrapping_xgboost() -> None:
