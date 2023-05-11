@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Optional, Type, Union
+from typing import Any, Callable, Optional, Type, Union
 
 import pandas as pd
 from fold.base import Tunable
@@ -81,7 +81,9 @@ class WrapLGBM(Model, Tunable):
     def get_params(self) -> dict:
         return self.model.get_params()
 
-    def clone_with_params(self, **parameters) -> Tunable:
+    def clone_with_params(
+        self, parameters: dict, clone_children: Optional[Callable] = None
+    ) -> Tunable:
         return WrapLGBM(
             self.model_class,
             init_args=parameters,
