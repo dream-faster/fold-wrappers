@@ -15,6 +15,7 @@ class WrapXGB(Model, Tunable):
         model_class: Type,
         init_args: Optional[dict] = {},
         instance: Optional[Any] = None,
+        name: Optional[str] = None,
         params_to_try: Optional[dict] = None,
     ) -> None:
         self.init_args = init_args
@@ -33,19 +34,21 @@ class WrapXGB(Model, Tunable):
             self.properties.model_type = Model.Properties.ModelType.classifier
         else:
             raise ValueError(f"Unknown model type: {type(self.model)}")
-        self.name = self.model.__class__.__name__
+        self.name = name or self.model.__class__.__name__
         self.params_to_try = params_to_try
 
     @classmethod
     def from_model(
         cls,
         model,
+        name: Optional[str] = None,
         params_to_try: Optional[dict] = None,
     ) -> WrapXGB:
         return WrapXGB(
             model.__class__,
             init_args=model.get_params(),
             instance=model,
+            name=name,
             params_to_try=params_to_try,
         )
 
@@ -91,4 +94,5 @@ class WrapXGB(Model, Tunable):
         return WrapXGB(
             model_class=self.model_class,
             init_args=parameters,
+            name=self.name,
         )

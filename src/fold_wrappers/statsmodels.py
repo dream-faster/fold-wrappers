@@ -20,6 +20,7 @@ class WrapStatsModels(Model):
         use_exogenous: Optional[bool] = None,
         online_mode: bool = False,
         instance: Optional[Any] = None,
+        name: Optional[str] = None,
     ) -> None:
         self.init_args = init_args
         init_args = {} if init_args is None else init_args
@@ -30,7 +31,7 @@ class WrapStatsModels(Model):
             if online_mode
             else Model.Properties.Mode.minibatch
         )
-        self.name = self.model_class.__class__.__name__
+        self.name = name or self.model_class.__class__.__name__
         self.instance = instance
 
     def fit(
