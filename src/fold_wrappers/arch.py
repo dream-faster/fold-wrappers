@@ -20,6 +20,7 @@ class WrapArch(Model):
         use_exogenous: Optional[bool] = None,
         online_mode: bool = False,
         instance: Optional[Any] = None,
+        name: Optional[str] = None,
     ) -> None:
         self.init_args = init_args
         init_args = {} if init_args is None else init_args
@@ -29,7 +30,7 @@ class WrapArch(Model):
             if online_mode
             else Model.Properties.Mode.minibatch
         )
-        self.name = "Arch"
+        self.name = name or "Arch"
         self.instance = instance
 
     def fit(

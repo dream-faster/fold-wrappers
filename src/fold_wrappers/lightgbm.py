@@ -16,6 +16,7 @@ class WrapLGBM(Model, Tunable):
         init_args: Optional[dict] = {},
         instance: Optional[Any] = None,
         params_to_try: Optional[dict] = None,
+        name: Optional[str] = None,
     ) -> None:
         self.init_args = init_args
         self.model_class = model_class
@@ -29,19 +30,21 @@ class WrapLGBM(Model, Tunable):
             self.properties.model_type = Model.Properties.ModelType.classifier
         else:
             raise ValueError(f"Unknown model type: {type(self.model)}")
-        self.name = self.model.__class__.__name__
+        self.name = name or self.model.__class__.__name__
         self.params_to_try = params_to_try
 
     @classmethod
     def from_model(
         cls,
         model,
+        name: Optional[str] = None,
         params_to_try: Optional[dict] = None,
     ) -> WrapLGBM:
         return WrapLGBM(
             model.__class__,
             init_args=model.get_params(),
             instance=model,
+            name=name,
             params_to_try=params_to_try,
         )
 
@@ -87,4 +90,5 @@ class WrapLGBM(Model, Tunable):
         return WrapLGBM(
             self.model_class,
             init_args=parameters,
+            name=self.name,
         )
