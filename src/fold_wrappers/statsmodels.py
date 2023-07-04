@@ -8,11 +8,6 @@ from fold.utils.checks import is_X_available
 
 
 class WrapStatsModels(Model):
-    properties = Model.Properties(
-        requires_X=False,
-        model_type=Model.Properties.ModelType.regressor,
-    )
-
     def __init__(
         self,
         model_class: Type,
@@ -26,10 +21,14 @@ class WrapStatsModels(Model):
         init_args = {} if init_args is None else init_args
         self.model_class = model_class
         self.use_exogenous = use_exogenous
-        self.properties.mode = (
-            Model.Properties.Mode.online
-            if online_mode
-            else Model.Properties.Mode.minibatch
+        self.properties = Model.Properties(
+            requires_X=False,
+            model_type=Model.Properties.ModelType.regressor,
+            mode=(
+                Model.Properties.Mode.online
+                if online_mode
+                else Model.Properties.Mode.minibatch
+            ),
         )
         self.name = name or self.model_class.__class__.__name__
         self.instance = instance

@@ -9,11 +9,6 @@ from fold.models.base import Model
 
 
 class WrapNeuralForecast(Model):
-    properties = Model.Properties(
-        requires_X=False,
-        model_type=Model.Properties.ModelType.regressor,
-    )
-
     def __init__(
         self,
         model_class: Type,
@@ -25,6 +20,10 @@ class WrapNeuralForecast(Model):
         self.model = model_class(**init_args) if instance is None else instance
         self.model_class = model_class
         self.name = self.model_class.__class__.__name__
+        self.properties = Model.Properties(
+            requires_X=False,
+            model_type=Model.Properties.ModelType.regressor,
+        )
 
     @classmethod
     def from_model(
