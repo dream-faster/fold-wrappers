@@ -8,11 +8,6 @@ from fold.models.base import Model
 
 
 class WrapProphet(Model):
-    properties = Model.Properties(
-        requires_X=False,
-        model_type=Model.Properties.ModelType.regressor,
-    )
-
     def __init__(
         self,
         model_class: Type,
@@ -24,10 +19,14 @@ class WrapProphet(Model):
         init_args = {} if init_args is None else init_args
         self.model = model_class(**init_args) if instance is None else instance
         self.model_class = model_class
-        self.properties.mode = (
-            Model.Properties.Mode.online
-            if online_mode
-            else Model.Properties.Mode.minibatch
+        self.properties = Model.Properties(
+            requires_X=False,
+            model_type=Model.Properties.ModelType.regressor,
+            mode=(
+                Model.Properties.Mode.online
+                if online_mode
+                else Model.Properties.Mode.minibatch
+            ),
         )
         self.name = self.model_class.__class__.__name__
 

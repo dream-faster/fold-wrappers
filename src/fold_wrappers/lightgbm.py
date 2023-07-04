@@ -8,8 +8,6 @@ from fold.models.base import Model
 
 
 class WrapLGBM(Model, Tunable):
-    properties = Model.Properties(requires_X=True)
-
     def __init__(
         self,
         model_class: Type,
@@ -24,6 +22,7 @@ class WrapLGBM(Model, Tunable):
         self.model = model_class(**init_args) if instance is None else instance
         from lightgbm import LGBMClassifier, LGBMRegressor
 
+        self.properties = Model.Properties(requires_X=True)
         if isinstance(self.model, LGBMRegressor):
             self.properties.model_type = Model.Properties.ModelType.regressor
         elif isinstance(self.model, LGBMClassifier):

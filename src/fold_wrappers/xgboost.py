@@ -8,8 +8,6 @@ from fold.models.base import Model
 
 
 class WrapXGB(Model, Tunable):
-    properties = Model.Properties(requires_X=True)
-
     def __init__(
         self,
         model_class: Type,
@@ -27,13 +25,14 @@ class WrapXGB(Model, Tunable):
         if isinstance(self.model, XGBRegressor) or isinstance(
             self.model, XGBRFRegressor
         ):
-            self.properties.model_type = Model.Properties.ModelType.regressor
+            model_type = Model.Properties.ModelType.regressor
         elif isinstance(self.model, XGBClassifier) or isinstance(
             self.model, XGBRFClassifier
         ):
-            self.properties.model_type = Model.Properties.ModelType.classifier
+            model_type = Model.Properties.ModelType.classifier
         else:
             raise ValueError(f"Unknown model type: {type(self.model)}")
+        self.properties = Model.Properties(requires_X=True, model_type=model_type)
         self.name = name or self.model.__class__.__name__
         self.params_to_try = params_to_try
 
