@@ -6,6 +6,7 @@ from fold.utils.tests import (
     generate_monotonous_data,
     generate_sine_wave_data,
     generate_zeros_and_ones,
+    generate_zeros_and_ones_skewed,
     tuneability_test,
 )
 from xgboost import XGBClassifier, XGBRegressor
@@ -42,6 +43,24 @@ def test_xgboost_classification() -> None:
     assert "predictions_XGBClassifier" in pred.columns
     assert "probabilities_XGBClassifier_0.0" in pred.columns
     assert "probabilities_XGBClassifier_1.0" in pred.columns
+
+
+def test_xgboost_classification_skewed() -> None:
+    X, y = generate_zeros_and_ones_skewed()
+    sample_weights = pd.Series(np.ones(len(y)), index=y.index)
+
+    splitter = ExpandingWindowSplitter(initial_train_window=500, step=100)
+    transformations = WrapXGB.from_model(XGBClassifier(), set_class_weights="balanced")
+    pred, _ = train_backtest(
+        transformations, X, y, splitter, sample_weights=sample_weights
+    )
+    assert "predictions_XGBClassifier" in pred.columns
+    assert "probabilities_XGBClassifier_0.0" in pred.columns
+    assert "probabilities_XGBClassifier_1.0" in pred.columns
+    # p = get_prediction_column(pred)
+    # pred_ratio = p.value_counts()[1] / p.value_counts()[0]
+    # y_ratio = y.value_counts()[1] / y.value_counts()[0]
+    # assert np.isclose(pred_ratio, y_ratio, atol=0.2)
 
 
 def test_automatic_wrapping_xgboost() -> None:
