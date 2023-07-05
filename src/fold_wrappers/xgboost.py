@@ -77,11 +77,13 @@ class WrapXGB(Model, Tunable):
             scale_pos_weight = counts[0] / counts[1]
             if self.set_class_weights == ClassWeightingStrategy.balanced_square:
                 scale_pos_weight = scale_pos_weight**2
+            self.model = self.model.set_params(
+                **dict(scale_pos_weight=scale_pos_weight)
+            )
             self.model.fit(
                 X=X,
                 y=y,
                 sample_weight=sample_weights,
-                scale_pos_weight=scale_pos_weight,
             )
         else:
             self.model.fit(X=X, y=y, sample_weight=sample_weights)
