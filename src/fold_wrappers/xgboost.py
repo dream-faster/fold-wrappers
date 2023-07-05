@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from math import sqrt
 from typing import Any, Callable, Optional, Type, Union
 
 import pandas as pd
@@ -11,7 +12,7 @@ from fold.utils.enums import ParsableEnum
 class ClassWeightingStrategy(ParsableEnum):
     none = "none"
     balanced = "balanced"
-    balanced_square = "balanced_square"
+    balanced_sqrt = "balanced_sqrt"
 
 
 class WrapXGB(Model, Tunable):
@@ -71,12 +72,12 @@ class WrapXGB(Model, Tunable):
     ) -> None:
         if self.set_class_weights in [
             ClassWeightingStrategy.balanced,
-            ClassWeightingStrategy.balanced_square,
+            ClassWeightingStrategy.balanced_sqrt,
         ]:
             counts = y.value_counts()
             scale_pos_weight = counts[0] / counts[1]
-            if self.set_class_weights == ClassWeightingStrategy.balanced_square:
-                scale_pos_weight = scale_pos_weight**2
+            if self.set_class_weights == ClassWeightingStrategy.balanced_sqrt:
+                scale_pos_weight = sqrt(scale_pos_weight)
             self.model = self.model.set_params(
                 **dict(scale_pos_weight=scale_pos_weight)
             )
