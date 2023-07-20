@@ -57,10 +57,6 @@ def test_xgboost_classification_skewed() -> None:
     assert "predictions_XGBClassifier" in pred.columns
     assert "probabilities_XGBClassifier_0.0" in pred.columns
     assert "probabilities_XGBClassifier_1.0" in pred.columns
-    # p = get_prediction_column(pred)
-    # pred_ratio = p.value_counts()[1] / p.value_counts()[0]
-    # y_ratio = y.value_counts()[1] / y.value_counts()[0]
-    # assert np.isclose(pred_ratio, y_ratio, atol=0.2)
 
 
 def test_automatic_wrapping_xgboost() -> None:
