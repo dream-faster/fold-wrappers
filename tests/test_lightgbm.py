@@ -54,9 +54,9 @@ def test_lgbm_classification_skewed() -> None:
     pred, _ = train_backtest(
         transformations, X, y, splitter, sample_weights=sample_weights
     )
-    assert "predictions_XGBClassifier" in pred.columns
-    assert "probabilities_XGBClassifier_0.0" in pred.columns
-    assert "probabilities_XGBClassifier_1.0" in pred.columns
+    assert "predictions_LGBMClassifier" in pred.columns
+    assert "probabilities_LGBMClassifier_0.0" in pred.columns
+    assert "probabilities_LGBMClassifier_1.0" in pred.columns
 
 
 def test_automatic_wrapping_lgbm() -> None:
