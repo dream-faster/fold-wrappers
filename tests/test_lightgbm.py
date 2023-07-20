@@ -6,6 +6,7 @@ from fold.utils.tests import (
     generate_monotonous_data,
     generate_sine_wave_data,
     generate_zeros_and_ones,
+    generate_zeros_and_ones_skewed,
     tuneability_test,
 )
 from lightgbm import LGBMClassifier, LGBMRegressor
@@ -34,6 +35,22 @@ def test_lgbm_classification() -> None:
 
     splitter = ExpandingWindowSplitter(initial_train_window=500, step=100)
     transformations = WrapLGBM.from_model(LGBMClassifier())
+    pred, _ = train_backtest(
+        transformations, X, y, splitter, sample_weights=sample_weights
+    )
+    assert "predictions_LGBMClassifier" in pred.columns
+    assert "probabilities_LGBMClassifier_0.0" in pred.columns
+    assert "probabilities_LGBMClassifier_1.0" in pred.columns
+
+
+def test_lgbm_classification_skewed() -> None:
+    X, y = generate_zeros_and_ones_skewed()
+    sample_weights = pd.Series(np.ones(len(y)), index=y.index)
+
+    splitter = ExpandingWindowSplitter(initial_train_window=500, step=100)
+    transformations = WrapLGBM.from_model(
+        LGBMClassifier(), set_class_weights="balanced"
+    )
     pred, _ = train_backtest(
         transformations, X, y, splitter, sample_weights=sample_weights
     )

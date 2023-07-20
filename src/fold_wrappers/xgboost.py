@@ -6,13 +6,8 @@ from typing import Any, Callable, Optional, Type, Union
 import pandas as pd
 from fold.base import Tunable
 from fold.models.base import Model
-from fold.utils.enums import ParsableEnum
 
-
-class ClassWeightingStrategy(ParsableEnum):
-    none = "none"
-    balanced = "balanced"
-    balanced_sqrt = "balanced_sqrt"
+from .types import ClassWeightingStrategy
 
 
 class WrapXGB(Model, Tunable):
